@@ -315,7 +315,7 @@ Resource policy - Interface Endpoint policy template/example
 
 ## Part 4. Interface Endpoint - SQS Queue Resource Policy  
 
-![figure23](./images/us-east-1/figure23.png)  
+![figure23](./images/us-east-1/figure23.png) 
 
 1.	Access the SQS Console in your browser at https://console.aws.amazon.com/sqs/home?region=us-east-1#
 2.	Refer to the collected output values from your CloudFormation stack.  Note the value of the “SQSQueueName” output.  This is your SQS Queue.
@@ -328,8 +328,8 @@ Update the SQS policy in your lab (a template/example is provided below):
 6.  Replace the placeholder value “sqsexampleARN” with the queue ARN for the queue created during CloudFormation lab setup and captured from the outputs table (format will be arn:aws:sqs:<region>:exampleacctid:examplequeuename)
 7.  Refer to the collected output values from your CloudFormation stack.  Note the value of the “SQSVPCInterfaceEndpoint” output.  This is your Interface VPC Endpoint.
 8.  Replace the example vpcid string “vpce-vpceid” with the ID of the Interface VPC endpoint created during CloudFormation lab setup and captured from the outputs table (format will be vpce-xxxxx)
-9.  Having updated the example policy (below) with values for your resources, update the SQS queue resource policy in the popup window.   
-10. Click review changes.  Click Save Changes. The queue with updated resource policy will display in the console.  
+9.  Having updated the example policy (below) with values for your resources, update the SQS queue resource policy in the popup window...   
+10. Click review changes.  Click Save Changes. The queue with updated resource policy will display in the console..
 
 Resource policy - SQS Queue resource policy template/example    
 
