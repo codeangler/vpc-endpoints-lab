@@ -50,12 +50,12 @@ Your CEO has mandated that sales data in transit should not be on the Internet. 
 
 2.	Once data is placed on S3 and all backend system updates are completed by the sales application, it will place a message onto an Amazon Simple Queue Service (SQS) queue, triggering downstream report generation and SQS message deletion by the reports engine.  
 
-![img2](./images/us-east-1/figure1.png) 
+![figure1](./images/us-east-1/figure1.png) 
 
 3.	The Reports Engine will read messages placed onto an Amazon SQS queue and generate a report
 4.	The Reports Engine will then write the output to S3 and delete the processed SQS message  
 
-![img3](./images/vpce-img9.png)  
+![figure2](./images/us-east-1/figure2.png) 
 
 ## Connect to Cloud9 IDE and setup SSH
 
@@ -71,16 +71,16 @@ Note:  This URL references us-east-1.  The URL you may need to use may differ if
 
 2.	Click on the “Open IDE” button on the Cloud9 instance.  The IDE loads in your browser.  Note; in event engine your Cloud9 environment may have a different name than is shown in the screenshots below.
 
-![img10](./images/vpce-img10.png) 
+![figure3](./images/us-east-1/figure3.png) 
 
 You have completed the following connection:
 
-![img11](./images/vpce-img11.png)  
+![figure4](./images/us-east-1/figure4.png) 
 
 4.	Use the Window drop down menu in the Cloud9 IDE menu bar to open a new terminal.  A terminal window/tab will open in the Cloud9 pane. **Repeat this process so that you have 3 terminal tabs available in your Cloud9 IDE.**
 5.  Use the first terminal tab to retain a connection to the Cloud9 instance.  We will use the other two tabs to make SSH connections to the Sales App EC2 instance and the Reports Engine EC2 instance.  
 
-![img12](./images/vpce-img12.png) 
+![figure5](./images/us-east-1/figure5.png) 
 
 6.   Let's setup SSH configuration on the Cloud9 instance using the first terminal tab.  Run these commands from the Cloud9 instance: 
 
@@ -90,7 +90,7 @@ aws s3 cp s3://ee-assets-prod-us-east-1/modules/7dbaeba0ef084e64a3566ebed6cb8bd2
 
 Output from the shell commands should look as follows:
 
-![prepssh](./images/prepssh.png) 
+![figure6](./images/us-east-1/figure6.png) 
 
 6.  As directed in the output, run the following ssh command to connect to the Sales App EC2 instance running in a private subnet in the VPC
 
@@ -100,7 +100,7 @@ ssh ec2-user@salesapp -i vpce.pem
 
 Output from making the SSH connection to the Sales App should look as follows:
 
-![prepssh3](./images/prepssh3.png) 
+![figure7](./images/us-east-1/figure7.png) 
 
 7.  Open a second terminal in Cloud 9 (Repeat step 4 of the 'Connect to Cloud9 IDE and setup SSH' instructions).  In the second terminal tab establish a connection to the Reports Engine EC2 instance running in a private subnet in the VPC by running the following command: 
  
@@ -110,7 +110,7 @@ ssh ec2-user@reportsengine -i vpce.pem
 
 Output from making the SSH connection to the Reports Engine should look as follows: 
 
-![prepssh5](./images/prepssh5.png) 
+![figure8](./images/us-east-1/figure8.png) 
 
 Leave the tab with the SSH connection to the Reports Engine EC2 instance.  We will return to this tab to perform testing later.
 
@@ -124,7 +124,7 @@ Note:  This URL references us-east-1.  The URL you may need to use may differ if
 
 2.	During this lab you will use outputs from the CloudFormation stacks used to setup the lab environment. Event engine will have created two Cloudformation stacks. One of the stacks created the Cloud9 instance - it will have aws-cloud9 in the stack name.  Additional lab components (VPC, SQS Queue, etc) were created by the second CloudFormation stack.  You will refer back to output values from this stack during this lab.  Note - the CloudFormation stack names may differ in your event engine account than those shown the screenshots in the lab documentation.
 
-![img13](./images/vpce-img13.png) 
+![figure9](./images/us-east-1/figure9.png) 
 
 # Build 
 
