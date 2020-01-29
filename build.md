@@ -7,7 +7,25 @@ v1.9
 <details>
   <summary>Using Event Engine</summary>
   
-Use the Event Engine Dashboard URL and the Hash provided to access the AWS account you will use for this lab
+If you are completing this lab using AWS Event Engine, then use the Event Engine Dashboard URL and the Hash provided by the person leading the seeion in order to access the AWS account you will use for this lab
+
+Once you have accessed the AWS Console for your account, validate that the CloudFormation stacks used to setup the lab completed successfully at: 
+
+https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks
+
+Note:  This URL references us-east-1.  The URL you may need to use may differ if you are running this lab in a region other than us-east-1.  
+
+Verify that all stacks have been provisioned with a status of **CREATE_COMPLETE** 
+
+Note:  The AWS region used in the screenshots/diagrams below may differ from your Event Engine region (US-EAST-1).  
+Additionally, CloudFormation stack names will be different.  
+
+</details>
+
+<details>
+  <summary>Using Your Own AWS Account</summary>
+  
+Access the cloudformation Console at the following URL
 
 Validate that the CloudFormation stacks used to setup the lab completed successfully at: 
 
@@ -19,18 +37,7 @@ Note:  The AWS region used in the screenshots/diagrams below may differ from you
 Additionally, CloudFormation stack names will be different.  
 
 </details>
-
-
-Use the Event Engine Dashboard URL and the Hash provided to access the AWS account you will use for this lab
-
-Validate that the CloudFormation stacks used to setup the lab completed successfully at: 
-
-https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks
-
-Verify that all stacks have been provisioned with a status of **CREATE_COMPLETE** 
-
-Note:  The AWS region used in the screenshots/diagrams below may differ from your Event Engine region (US-EAST-1).  
-Additionally, CloudFormation stack names will be different.  
+ 
 
 ## Lab scenario
 
@@ -58,6 +65,8 @@ AWS Cloud9 is a cloud-based integrated development environment (IDE) that lets y
 1.	Access the Cloud9 console: 
 
 https://console.aws.amazon.com/cloud9/home?region=us-east-1
+
+Note:  This URL references us-east-1.  The URL you may need to use may differ if you are running this lab in a region other than us-east-1.  
 
 2.	Click on the “Open IDE” button on the Cloud9 instance.  The IDE loads in your browser.  Note; in event engine your Cloud9 environment may have a different name than is shown in the screenshots below.
 
@@ -109,6 +118,8 @@ Leave the tab with the SSH connection to the Reports Engine EC2 instance.  We wi
 1.	Access the CloudFormation stacks in your event engine account: 
 
 https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks
+
+Note:  This URL references us-east-1.  The URL you may need to use may differ if you are running this lab in a region other than us-east-1.  
 
 2.	During this lab you will use outputs from the CloudFormation stacks used to setup the lab environment. Event engine will have created two Cloudformation stacks. One of the stacks created the Cloud9 instance - it will have aws-cloud9 in the stack name.  Additional lab components (VPC, SQS Queue, etc) were created by the second CloudFormation stack.  You will refer back to output values from this stack during this lab.  Note - the CloudFormation stack names may differ in your event engine account than those shown the screenshots in the lab documentation.
 
@@ -369,4 +380,4 @@ Resource policy - SQS Queue resource policy template/example
 
 ---
 
-**Congratulations !!!**  You can now move on to the [**Verify**](./verify-ee-use1.md) phase!
+**Congratulations !!!**  You can now move on to the [**Verify**](./verify.md) phase!
