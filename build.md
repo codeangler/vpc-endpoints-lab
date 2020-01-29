@@ -132,7 +132,7 @@ You will now examine/update configurations to control access to resources and en
 
 ## Securing Access to the S3 Bucket using a Gateway Endpoint - Overview
 
-![gateway-overview](./images/gateway-overview.png) 
+![figure10](./images/us-east-1/figure10.png) 
 
 * **Part 1. Gateway Endpoint - IAM Roles**.  The EC2 instances will use an IAM Role with associated IAM policies which provide permissions to execute API calls against S3.  [See IAM roles for EC2 instances for more information.](https://aws.amazon.com/blogs/aws/iam-roles-for-ec2-instances-simplified-secure-access-to-aws-service-apis-from-ec2/)  
 * **Part 2. Gateway Endpoint - Route Tables**.  Routes to the gateway endpoint are placed in the route tables for the private subnets only.  API calls issued from the Cloud9 instance (on the public subnet) will use a route table without an entry that routes traffic to the S3 gateway endpoint.  Consequently, traffic destined for S3 IP addresses that originates on the Cloud9 instance will exit the VPC via the Internet Gateway and traverse the Internet.  API calls issued from the sales application and report engine E2 instances (on the private subnet) will use a route table entry that routes traffic to the gateway endpoint to access S3.
@@ -143,7 +143,7 @@ You will now examine/update configurations to control access to resources and en
 
 You will now review the IAM policies in use by the lab EC2 instances  
 
-![gateway-overview-1](./images/gateway-overview-1.png) 
+![figure11](./images/us-east-1/figure11.png) 
 
 
 The Sales App IAM Role and Policy
@@ -162,25 +162,25 @@ The Reports Engine IAM Role and Policy
 
 You will now review the Route Tables in use by the lab EC2 instances
 
-![gateway-overview-2](./images/gateway-overview-2.png) 
+![figure12](./images/us-east-1/figure12.png) 
 
 1.  Collect the output values from your CloudFormation stack for PrivateSubnet1ARouteTable and PrivateSubnet2ARouteTable.  These are the route tables associated to your private subnets and affect the routing behavior of your EC2 instances; Sales App and Reports Engine.
 2.  Access the Route table screen in the VPC dashboard in the AWS console at the following URL: https://us-east-1.console.aws.amazon.com/vpc/home?region=us-east-1#RouteTables:sort=routeTableId
 3.  Highlight one of the route tables and examine the route table entries.  Note that a prefix list (format pl-xxx) entry has been populated in the route table and its target is the gateway vpc endpoint.  This entry is automatically populated by AWS when a gateway endpoint is created and associated with a subnet. 
 
-![routetable](./images/route-table.png)
+![figure13](./images/us-east-1/figure13.png) 
 
 ## Part 3: Gateway Endpoint – Gateway Endpoint Resource Policy
 
 You will now configure the Gateway Endpoint Resource Policy restricting which S3 buckets can be accessed via the gateway endpoint
 
-![gateway-overview-3](./images/gateway-overview-3.png) 
+![figure14](./images/us-east-1/figure14.png) 
 
 1.	Access the Endpoints screen in the VPC dashboard in the AWS console: https://us-east-1.console.aws.amazon.com/vpc/home?region=us-east-1#Endpoints:sort=vpcEndpointId
 2.	Refer to the collected output values from your CloudFormation.  Note the value of the “S3VPCGatewayEndpoint” output.  This is your VPC Gateway Endpoint ID.
 3.	Select your S3 Gateway Endpoint ID in the upper pane of the AWS console.  Details for the endpoint are presented in the lower pane.  Click on the Policy tab.  Click “Edit Policy” to edit the policy.  Click the custom radio button so that you can enter a custom policy.
 
-![img15](./images/vpce-img15.png) 
+![figure15](./images/us-east-1/figure15.png) 
 
 Resource policy - Gateway Endpoint policy template/example    
 
@@ -206,13 +206,13 @@ Using the endpoint policy template/example above, update the endpoint policy:
 
 5.	Refer to the collected output values from your CloudFormation.  Copy/paste the value of the “RestrictedS3BucketName” output and use it to replace the value of examplerestrictedbucketname in the template/example above and save the custom policy.
 
-![img16](./images/vpce-img16.png) 
+![figure16](./images/us-east-1/figure16.png)  
 
 ## Part 4: Gateway Endpoint – S3 Bucket Resource Policy 
 
 You will now configure the S3 Bucket Policy restricting use of the S3 bucket resource
 
-![gateway-overview-4](./images/gateway-overview-4.png) 
+![figure17](./images/us-east-1/figure17.png) 
 
 Update the S3 Bucket policy in your lab (a template/example is provided below):
 
@@ -256,7 +256,7 @@ Resource policy - S3 bucket policy template/example
 
 ## Securing Access to the SQS Queue using a Interface Endpoint - Overview
 
-![interface-overview](./images/interface-overview.png) 
+![figure17](./images/us-east-1/figure18.png)  
 
 * **Part 1. Interface Endpoint - IAM Roles**.  The EC2 instances will use an IAM Role with associated IAM policies which provide permissions to execute API calls against SQS.  [See IAM roles for EC2 instances for more information.](https://aws.amazon.com/blogs/aws/iam-roles-for-ec2-instances-simplified-secure-access-to-aws-service-apis-from-ec2/)
 * **Part 2. Interface Endpoint - Interface Endpoint Resource Policy**.  Access to the SQS service will be restricted by an Interface Endpoint policy which allows access to a specific queue only and to IAM Principals within the lab AWS only.      
@@ -265,7 +265,7 @@ Resource policy - S3 bucket policy template/example
 
 ## Part 1: Interface Endpoint - IAM Roles
 
-![interface-overview-1](./images/interface-overview-1.png) 
+![figure19](./images/us-east-1/figure19.png)  
 
 (Optional) Review the IAM permissions in your lab:
 
@@ -273,7 +273,7 @@ Resource policy - S3 bucket policy template/example
 
 ## Part 2. Interface Endpoint - Security Groups
 
-![interface-overview-2](./images/interface-overview-2.png)
+![figure20](./images/us-east-1/figure20.png)  
 
 Review the security group configuration in your lab:
 
@@ -282,11 +282,11 @@ Review the security group configuration in your lab:
 3.	Click on the Inbound tab in the lower ne to see inbound security group rules.  The development team have restricted access to 10.0.0.0/8.
 4.	(Optional).  Further restrict the inbound rules.  Inbound rules could be reference the security groups associated to the sales app and the reports engine EC2 instances or reference the CIDR ranges of the private subnets only to constrain network access to the interface endpoint and the SQS queue it provides access to - https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html#AddRemoveRules
 
-![img17](./images/vpce-img17.png) 
+![figure21](./images/us-east-1/figure21.png)  
 
 ## Part 3. Interface Endpoint - Interface Endpoint Resource Policy 
 
-![interface-overview-3](./images/interface-overview-3.png) 
+![figure22](./images/us-east-1/figure22.png)  
 
 A VPC Interface policy controls access to an Interface endpoint.  We will use it to restrict access to identities that exist within this AWS account only.
 
@@ -315,7 +315,7 @@ Resource policy - Interface Endpoint policy template/example
 
 ## Part 4. Interface Endpoint - SQS Queue Resource Policy  
 
-![interface-overview-4](./images/interface-overview-4.png)
+![figure23](./images/us-east-1/figure23.png)  
 
 1.	Access the SQS Console in your browser at https://console.aws.amazon.com/sqs/home?region=us-east-1#
 2.	Refer to the collected output values from your CloudFormation stack.  Note the value of the “SQSQueueName” output.  This is your SQS Queue.
