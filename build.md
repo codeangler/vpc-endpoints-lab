@@ -33,7 +33,9 @@ https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/s
 Verify that all stacks have been provisioned with a status of **CREATE_COMPLETE** 
 
 Note:  The AWS region used in the screenshots/diagrams below may differ from your Event Engine region (US-EAST-1).  
-Additionally, CloudFormation stack names will be different.  
+Additionally, CloudFormation stack names will be different. 
+
+**IMPORTANT !!**  It is assumed that if you using an identity with Administrative level privileges if you are running this lab in your own AWS account (an account provisioned outside of the Event Engine platform). 
 
 </details>
  
@@ -48,7 +50,7 @@ Your CEO has mandated that sales data in transit should not be on the Internet. 
 
 2.	Once data is placed on S3 and all backend system updates are completed by the sales application, it will place a message onto an Amazon Simple Queue Service (SQS) queue, triggering downstream report generation and SQS message deletion by the reports engine.  
 
-![img2](./images/vpce-img8.png) 
+![img2](./images/us-east-1/figure1.png) 
 
 3.	The Reports Engine will read messages placed onto an Amazon SQS queue and generate a report
 4.	The Reports Engine will then write the output to S3 and delete the processed SQS message  
