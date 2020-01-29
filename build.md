@@ -7,7 +7,7 @@ v1.9
 <details>
   <summary>Using Event Engine</summary>
   
-If you are completing this lab using AWS Event Engine, then use the Event Engine Dashboard URL and the Hash provided by the person leading the seeion in order to access the AWS account you will use for this lab
+If you are completing this lab using AWS Event Engine, then use the Event Engine Dashboard URL and the Hash provided by the person leading the session in order to access the AWS account you will use for this lab
 
 Once you have accessed the AWS Console for your account, validate that the CloudFormation stacks used to setup the lab completed successfully at: 
 
