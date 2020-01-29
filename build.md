@@ -9,16 +9,15 @@ v1.9
   
 If you are completing this lab using AWS Event Engine, then use the Event Engine Dashboard URL and the Hash provided by the person leading the session in order to access the AWS account you will use for this lab
 
-Once you have accessed the AWS Console for your account, validate that the CloudFormation stacks used to setup the lab completed successfully at: 
+Once you have accessed the AWS Console for your account, validate that the CloudFormation stacks executed on your behalf by Event Engine used to setup the lab completed successfully at: 
 
 https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks
 
-Note:  This URL references us-east-1.  The URL you may need to use may differ if you are running this lab in a region other than us-east-1.  
+Note:  This URL references us-east-1.  The URL you may need to use may differ if you are running this lab in a region other than us-east-1.  If you are unsure, then please ask the person leading the session.
 
 Verify that all stacks have been provisioned with a status of **CREATE_COMPLETE** 
 
-Note:  The AWS region used in the screenshots/diagrams below may differ from your Event Engine region (US-EAST-1).  
-Additionally, CloudFormation stack names will be different.  
+Note:  The AWS region used in the screenshots/diagrams below may differ from the region you are using for your lab.  Additionally, CloudFormation stack names will be different.  
 
 </details>
 
