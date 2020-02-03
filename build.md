@@ -15,7 +15,7 @@ https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/s
 
 Verify that all stacks have been provisioned with a status of **CREATE_COMPLETE** 
 
-Note:  This URL references us-east-1.  The AWS region referenced in URLs and used in the screenshots/diagrams below may differ from the region you are using for your lab.  If you are unsure which region your lab should be run in, then please ask the person leading the session.  CloudFormation stack names will be different.  
+**Important:**  URL references in this document assume that AWS region us-east-1 is being used.  The AWS region referenced in URLs and used in the screenshots/diagrams below may differ from the region you are using for your lab.  If you are unsure which region your lab should be run in, then please ask the person leading the session.  CloudFormation stack names will be different.  
 
 </details>
 
@@ -28,9 +28,7 @@ https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/s
 
 Verify that all stacks have been provisioned with a status of **CREATE_COMPLETE** 
 
-Note:  It is recommended that you use region us-east-1 for this lab.  CloudFormation stack names will be different.  
- 
-**IMPORTANT !!**  It is assumed that if you using an identity with Administrative level privileges if you are running this lab in your own AWS account (an account provisioned outside of the Event Engine platform). 
+**Important:**  URL references in this document assume that AWS region us-east-1 is being used.  It is recommended that you use region us-east-1 for this lab.  CloudFormation stack names will be different.  It is assumed that if you using an identity with **Administrative level privileges** if you are running this lab in your own AWS account (an account provisioned outside of the Event Engine platform). 
 
 </details>
  
