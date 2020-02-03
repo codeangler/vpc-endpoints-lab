@@ -13,28 +13,23 @@ Once you have accessed the AWS Console for your account, validate that the Cloud
 
 https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks
 
-Note:  This URL references us-east-1.  The URL you may need to use may differ if you are running this lab in a region other than us-east-1.  If you are unsure, then please ask the person leading the session.
-
 Verify that all stacks have been provisioned with a status of **CREATE_COMPLETE** 
 
-Note:  The AWS region used in the screenshots/diagrams below may differ from the region you are using for your lab.  Additionally, CloudFormation stack names will be different.  
+Note:  This URL references us-east-1.  The AWS region referenced in URLs and used in the screenshots/diagrams below may differ from the region you are using for your lab.  If you are unsure which region your lab should be run in, then please ask the person leading the session.  CloudFormation stack names will be different.  
 
 </details>
 
 <details>
   <summary>Using Your Own AWS Account</summary>
-  
-Access the cloudformation Console at the following URL
 
-Validate that the CloudFormation stacks used to setup the lab completed successfully at: 
+Once you have accessed the AWS Console for your account, validate that the CloudFormation stacks executed on your behalf by Event Engine used to setup the lab completed successfully at: 
 
 https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks
 
 Verify that all stacks have been provisioned with a status of **CREATE_COMPLETE** 
 
-Note:  The AWS region used in the screenshots/diagrams below may differ from your Event Engine region (US-EAST-1).  
-Additionally, CloudFormation stack names will be different. 
-
+Note:  It is recommended that you use region us-east-1 for this lab.  
+ 
 **IMPORTANT !!**  It is assumed that if you using an identity with Administrative level privileges if you are running this lab in your own AWS account (an account provisioned outside of the Event Engine platform). 
 
 </details>
