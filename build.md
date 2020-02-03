@@ -1,6 +1,6 @@
 # Environment Setup  
 
-v1.9
+v2.50
 
 # Lab Setup
 
@@ -28,7 +28,7 @@ https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/s
 
 Verify that all stacks have been provisioned with a status of **CREATE_COMPLETE** 
 
-Note:  It is recommended that you use region us-east-1 for this lab.  
+Note:  It is recommended that you use region us-east-1 for this lab.  CloudFormation stack names will be different.  
  
 **IMPORTANT !!**  It is assumed that if you using an identity with Administrative level privileges if you are running this lab in your own AWS account (an account provisioned outside of the Event Engine platform). 
 
