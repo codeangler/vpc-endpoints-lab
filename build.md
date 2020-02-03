@@ -149,8 +149,8 @@ The role will be named with the cloudFormation stack name, followed by the regio
 
 2.	Expand the attached policies to review permissions.  Notice 
 
-# The salesapp role has read and write access to both the restricted and the unrestricted buckets.   It will use the "s3:GetObject" API call to write data into the restricted S3 bucket. 
-# The salesapp role has permissions on the SQS queue, including read and write access.  It will use the "sqs:SendMessage" API call to write a message on the Queue and indicate data for the sales report has been written into the restricted S3 bucket.
+* The salesapp role has read and write access to both the restricted and the unrestricted buckets.   It will use the "s3:GetObject" API call to write data into the restricted S3 bucket. 
+* The salesapp role has permissions on the SQS queue, including read and write access.  It will use the "sqs:SendMessage" API call to write a message on the Queue and indicate data for the sales report has been written into the restricted S3 bucket.
 
 3.	Review the trust policy by clicking on the Trust tab.  Notice that the identity provider(s) ec2.amazonaws.com is a trusted entity.  This trust policy allows the sales app EC2 instance to use the role.
 
