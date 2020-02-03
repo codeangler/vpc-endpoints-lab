@@ -149,7 +149,7 @@ The role will be named with the cloudFormation stack name, followed by the regio
 
 2.	Expand the attached policies to review permissions.  Notice:
 
-* The salesapp role has read and write access to the restricted bucket.   It will use the "s3:PutObject" API call to write data into the restricted S3 bucket. 
+* The salesapp role has read and write access to both the restricted and unrestricted buckets.   It will use the "s3:PutObject" API call to write data into the restricted S3 bucket. 
 * The salesapp role has permissions on the SQS queue, including read and write access.  It will use the "sqs:SendMessage" API call to write a message on the Queue and indicate data for the sales report has been written into the restricted S3 bucket.
 
 3.	Review the trust policy by clicking on the Trust tab.  Notice that the identity provider(s) ec2.amazonaws.com is a trusted entity.  This trust policy allows the sales app EC2 instance to use the role.
@@ -164,7 +164,7 @@ The role will be named with the cloudFormation stack name, followed by the regio
 
 2.	Expand the attached policies to review permissions.  Notice:
 	
-* The reportsengine role has read and write access to the restricted bucket.  It will use the "s3:GetObject" API call to read data from the restricted S3 bucket. 
+* The reportsengine role has read and write access to both the restricted and unrestricted buckets.  It will use the "s3:GetObject" API call to read data from the restricted S3 bucket. 
 * The reportengine has permissions on the SQS queue, including the ability to read and delete SQS messages from the SQS Queue.  will use the "sqs:ReceiveMessage" API call in order to retrieves messages from the specified queue. The messages will contain the name of the data file from which the report must be created.  The reportengine will use the "sqs:DeleteMessage" API call in order to delete messages once report generation is complete.    
 
 3.	Review the trust policy by clicking on the Trust tab.  Notice that the identity provider(s) ec2.amazonaws.com is a trusted entity.  This trust policy allows the sales app EC2 instance to use the role
