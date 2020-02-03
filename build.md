@@ -213,6 +213,9 @@ Resource policy - Gateway Endpoint policy template/example
 }	
 ```
 
+**Important**:  For gateway endpoints only, you cannot limit the principal to a specific IAM role or user. We specify "*" to grant access to all IAM roles and users. For gateway endpoints only, if you specify the principal in the format "AWS":"AWS-account-ID" or "AWS":"arn:aws:iam::AWS-account-ID:root", access is granted to the AWS account root user only, and not all IAM users and roles for the account. (Ref:  https://docs.aws.amazon.com/vpc/latest/userguide/vpc-endpoints-access.html)
+
+
 Using the endpoint policy template/example above, update the endpoint policy:
 
 5.	Refer to the collected output values from your CloudFormation.  Copy/paste the value of the “RestrictedS3BucketName” output and use it to replace the value of examplerestrictedbucketname in the template/example above and save the custom policy.
