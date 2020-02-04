@@ -1,13 +1,10 @@
 ![verify-gateway-nav](./images/us-east-1/verify-gateway-nav.png) 
 
-
 # Verify - Gateway Endpoint
 
-We will now verify the configuration to validate it meets the stated requirements.  
+We will now verify the S3 Gateway VPC Endpoint configuration to validate it meets the stated requirements.  
 
-## Verify the Gateway Endpoint Configuration
-
-We will start by validating that the S3 bucket policy you added to the restricted bucket enforces the requirement that writes into Amazon S3 occur via our VPC Endpoint.
+We will start by validating that the S3 bucket policy you added to the **restricted** bucket enforces the requirement that writes into it occur via our VPC Endpoint.
 
 1.  Refer to the collected output values from your CloudFormation stack.  Note the value of the “RestrictedS3Bucket” and "UnrestrictedS3Bucket" outputs.  You will replace these values in commands below.
 
