@@ -2,7 +2,7 @@
 
 # Build - Gateway Endpoint
 
-You will now examine/update configurations to control access to resources and ensure data is transmitted on private network segments
+You will now examine/update configurations to control access to resources and ensure data to S3 is transmitted on private network segments via an S3 Gateway VPC Endpoint
 
 ## Securing Access to the S3 Bucket using a Gateway Endpoint - Overview
 

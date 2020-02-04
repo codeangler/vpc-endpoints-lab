@@ -2,6 +2,8 @@
 
 # Build - Interface Endpoint
 
+You will now examine/update configurations to control access to resources and ensure data to SQS is transmitted on private network segments via an SQS Interface VPC Endpoint
+
 ## Securing Access to the SQS Queue using a Interface Endpoint - Overview
 
 ![figure17](./images/us-east-1/figure18.png)  
