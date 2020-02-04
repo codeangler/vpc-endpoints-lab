@@ -148,6 +148,8 @@ Resource policy - S3 bucket policy template/example
 
 ```
 
+The policy once enetered should look something similar to the following:
+
 ![figure17a](./images/us-east-1/figure17a.png) 
 
 **Important**: The aws:sourceVpce condition key is populated when a request passes through a VPC endpoint.  The S3 bucket policy tests for this condition and DENIES requests which do not contain/do not equal the condition.    
