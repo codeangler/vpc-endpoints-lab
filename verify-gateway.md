@@ -97,3 +97,7 @@ aws s3 rm s3://<UnrestrictedS3Bucket>/test.txt
 
 * The Sales App EC2 instance sits in a private subnet in your VPC and has a path in its route table to the gateway endpoint.  Calls to S3 are made via the gateway endpoint and access to the bucket occurs over a private network segment. S3:PutObject requests to the unrestricted bucket fail as the gateway endpoint policy will **DENY** access to the unrestricted bucket  
 * Access to the restricted bucket is successful.  
+
+---
+
+**Congratulations !!!**  You can now move on to the [**Verify - Interface Endpoint**](./verify-interface.md) section !
