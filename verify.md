@@ -9,7 +9,7 @@ We will start by validating that the S3 bucket policy you added to the restricte
 
 1.  Refer to the collected output values from your CloudFormation stack.  Note the value of the “RestrictedS3Bucket” and "UnrestrictedS3Bucket" outputs.  You will replace these values in commands below.
 
-**Ensure that your SSH session in Cloud9 is connected locally to the Cloud9 instance and that you are not using an SSH session connected to the Sales App or Reports Engine EC2 instances.  You will execute steps 2 and 3 from the Cloud9 EC2 instance bash prompt:**
+**Ensure that your session is connected to the Cloud9 instance.  You will execute steps 2 and 3 from the Cloud9 EC2 instance bash prompt:**
   
 2.  Execute the commands provided below AFTER replacing the values of <UnrestrictedS3Bucket> with the output values collected in step 1.  Make note of the results.
 
