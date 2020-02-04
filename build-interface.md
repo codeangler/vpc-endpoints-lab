@@ -131,4 +131,4 @@ Resource policy - SQS Queue resource policy template/example
 
 ---
 
-**Congratulations !!!**  You can now move on to [**Verify Gateway Endpoint**](./verify-gateway.md) phase!
+**Congratulations !!!**  You can now move on to the [**Verify Gateway Endpoint**](./verify-gateway.md) section!
