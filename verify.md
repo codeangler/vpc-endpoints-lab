@@ -7,7 +7,7 @@ We will now verify the configuration to validate it meets the stated requirement
 
 We will start by validating that the S3 bucket policy you added to the restricted bucket enforces the requirement that writes into Amazon S3 occur via our VPC Endpoint.
 
-1.  Refer to the collected output values from your CloudFormation stack.  Note the value of the “RestrictedS3Bucket” and "UnrestrictedS3Bucket" outputs.
+1.  Refer to the collected output values from your CloudFormation stack.  Note the value of the “RestrictedS3Bucket” and "UnrestrictedS3Bucket" outputs.  You will replacethese values in commands below.
 
 **Ensure that your session is connected to the Cloud9 instance and not the Sales App or Reports Engine EC2 instances.  You will execute steps 2 and 3 from the Cloud9 EC2 instance bash prompt:**
   
