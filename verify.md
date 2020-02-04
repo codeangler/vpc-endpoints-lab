@@ -85,8 +85,11 @@ aws s3 rm s3://<UnrestrictedS3Bucket>/test.txt
 |---|---|
 | aws s3 cp test.txt s3://'UnrestrictedS3Bucket'/test.txt  |  upload failed | 
 
+**Why does this NOT work ?**
 
-<HERE!!!!>
+**A.**  The SalesApp instance is on the private subnet. When you execute the aws s3 cp command, the AWS CLI signs your API request using credentials associated with the identity returned by the aws sts get-caller-identity - the salesapprole.  The AWS CLI uses DNS to resolve the address for Amazon Simple Storage Service(S3).  The prefix list entry in the private route table dynamically resolves to the public CIDR ranges used by S3.  The associated target in the private route table for all S3 addresses is the S3 Gateway VPC Endpoint.  This route entry is more specific than a 0.0.0.0/0 route and the more specific route takes precedence.  Traffic destined for an S3public IP address is sent to the S3 Gateway VPC Endpoint.  The request is routed to S3 Gateway VPC Endpoint.  The S3 Gateway VPC Endpoint Policy restricts access to **ONLY** the restricted bucketand the request fails.
+
+![figure27](./images/us-east-1/figure27.png) 
 
 
 * The Sales App EC2 instance sits in a private subnet in your VPC and has a path in its route table to the gateway endpoint.  Calls to S3 are made via the gateway endpoint and access to the bucket occurs over a private network segment. S3:PutObject requests to the unrestricted bucket fail as the gateway endpoint policy will **DENY** access to the unrestricted bucket  
