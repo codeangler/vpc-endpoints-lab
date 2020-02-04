@@ -1,7 +1,7 @@
 Welcome to the VPC Endpoints Lab!!  The lab is broken into 4 parts during which you will build and verify Gateway and Interface Endpoints.
 
 
-[![build-gateway-nav](./images/us-east-1/build-gateway-nav.png](https://github.com/harrisn6/vpc-endpoints-lab/blob/master/build-gateway.md)  
+[![build-gateway-nav](https://github.com/harrisn6/vpc-endpoints-lab//images/us-east-1/build-gateway-nav.png](https://github.com/harrisn6/vpc-endpoints-lab/blob/master/build-gateway.md)  
 
 
 # Build - Gateway Endpoint
