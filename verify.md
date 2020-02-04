@@ -9,7 +9,7 @@ We will start by validating that the S3 bucket policy you added to the restricte
 
 1.  Refer to the collected output values from your CloudFormation stack.  Note the value of the “RestrictedS3Bucket” and "UnrestrictedS3Bucket" outputs.  You will replace these values in commands below.
 
-**Ensure that your session is connected to the Cloud9 instance and not the Sales App or Reports Engine EC2 instances.  You will execute steps 2 and 3 from the Cloud9 EC2 instance bash prompt:**
+**Ensure that your SSH session in Cloud9 is connected locally to the Cloud9 instance and that you are not using an SSH session connected to the Sales App or Reports Engine EC2 instances.  You will execute steps 2 and 3 from the Cloud9 EC2 instance bash prompt:**
   
 2.  Execute the commands provided below AFTER replacing the values of <UnrestrictedS3Bucket> with the output values collected in step 1.  Make note of the results.
 
@@ -27,13 +27,13 @@ aws s3 rm s3://<UnrestrictedS3Bucket>/test.txt
 |---|---|
 | aws s3 cp test.txt s3://'UnrestrictedS3Bucket'/test.txt  |  upload |  
 
-Why does this work ?
+**Why does this work ?**
 
 ![figure25](./images/us-east-1/figure25.png) 
 
-A.  The Cloud9 instance is on the public subnet. When you execute the aws s3 cp command, the AWS CLI signs your API request using credentials associated with the identity returned by the aws sts get-caller-identity.  The AWS CLI uses DNS to resolve the address for Amazon Simple Storage Service(S3).  A public address is returned (as output from the nslookup command shows).  The route table for your Cloud9 instance does not have an entry for the VPC Endpoint and traffic destined for S3 is sent to the Internet Gateway using the 0.0.0.0/0 route table entry.  
-B.  The request is routed to the public IP address of the S3 service.  
-C.  When the request reaches S3, IAM verifies that the request is authenticated and authorized before completing the request. In this example, the identity signing the request (the active identity signing the request can be seen in output from the aws sts get-caller-identity aws cli command)has permissions to write this object into S3.  IAM permissions assigned to the (administrative) user **ALLOW** data to be written to the unrestricted bucket. The unrestricted bucket does not have a policy.
+**A.**  The Cloud9 instance is on the public subnet. When you execute the aws s3 cp command, the AWS CLI signs your API request using credentials associated with the identity returned by the aws sts get-caller-identity.  The AWS CLI uses DNS to resolve the address for Amazon Simple Storage Service(S3).  A public address is returned (as output from the nslookup command shows).  The route table for your Cloud9 instance does not have an entry for the VPC Endpoint and traffic destined for S3 is sent to the Internet Gateway using the 0.0.0.0/0 route table entry.  
+**B.**  The request is routed to the public IP address of the S3 service.  
+**C.**  When the request reaches S3, IAM verifies that the request is authenticated and authorized before completing the request. In this example, the identity signing the request (the active identity signing the request can be seen in output from the aws sts get-caller-identity aws cli command)has permissions to write this object into S3.  IAM permissions assigned to the (administrative) user **ALLOW** data to be written to the unrestricted bucket. The unrestricted bucket does not have a policy.
 
 2.  Execute the commands provided below AFTER replacing the values of <RestrictedS3Bucket> with the output values collected in step 1.  Make note of the results.
 
