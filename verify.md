@@ -62,33 +62,37 @@ aws s3 rm s3://<RestrictedS3Bucket>/test.txt
 
 The S3 bucket policy you added to the **restricted** bucket enforces the requirement that writes into Amazon S3 occur via our VPC Endpoint.
 
-**Ensure that your session is connected to the Sales App EC2 instance.  You will execute step 4 from the Sales App EC2 bash prompt:**
-
-4. Connect to the Sales App EC2 instance.  You will now establish an SSH connection to the EC2 Sales App instance running in a private subnet in the lab VPC.  
-
- 
-Execute the commands provided below AFTER replacing the values of <RestrictedS3Bucket> and <UnrestrictedS3Bucket> with the output values collected in step 1.  Make note of the results. 
+**Ensure that your session is connected to the Sales App EC2 instance.  You will execute step 4 from the Sales App EC2 bash prompt.  If you do not already have a session connected to the Sales App EC2 instance execute the following commands from the Cloud9:**
 
 ``` json
 ssh ec2-user@salesapp -i vpce.pem
 ```
 
-**Ensure that after completing step #3 your session is connected to the the Sales App EC2 instance.**
+4.  Execute the commands provided below AFTER replacing the values of <RestrictedS3Bucket> with the output values collected in step 1.  Make note of the results.
+
 
 ``` json
 touch test.txt
-aws s3 cp test.txt s3://<RestrictedS3Bucket>/test.txt
+aws sts get-caller-identity
+nslookup s3.amazonaws.com
 aws s3 cp test.txt s3://<UnrestrictedS3Bucket>/test.txt
-  
+aws s3 rm s3://<UnrestrictedS3Bucket>/test.txt   
 ```
-**Expected behavior When Executed from Cloud9 Instance is:** 
+
+**Expected behavior When Executed from Sales App EC2 Instance is:** 
+
+|Command   |  Executed from Cloud9 EC2 Instance |   
+|---|---|
+| aws s3 cp test.txt s3://'UnrestrictedS3Bucket'/test.txt  |  upload failed | 
+
+
+<HERE!!!!>
+
+
 * The Sales App EC2 instance sits in a private subnet in your VPC and has a path in its route table to the gateway endpoint.  Calls to S3 are made via the gateway endpoint and access to the bucket occurs over a private network segment. S3:PutObject requests to the unrestricted bucket fail as the gateway endpoint policy will **DENY** access to the unrestricted bucket  
 * Access to the restricted bucket is successful.  
 
-|Command   |   Executed from Sales App EC2 Instance |  
-|---|---|
-| aws s3 cp test.txt s3://'RestrictedS3Bucket'/test.txt    | upload  |  
-| aws s3 cp test.txt s3://'UnrestrictedS3Bucket'/test.txt  | upload failed |
+
 
 ## Verify the Interface Endpoint Configuration 
 
