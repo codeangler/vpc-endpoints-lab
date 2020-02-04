@@ -5,42 +5,64 @@ We will now verify the configuration to validate it meets the stated requirement
 
 ## Verify the Gateway Endpoint Configuration
 
-* Verify the Gateway Endpoint Configuration for s3:PutObject and s3:getObject calls to S3
-  * Writes to the restricted bucket must use the gateway endpoint.
-  * Access to the gateway endpoint is only available to the private subnets via the route tables associated to the private subnets. 
+We will start by validating that the S3bucket policy you added to the restricted bucket enforces the requirement that writes occur via our VPC Endpoint.
 
-While connected to the Cloud9 instance, you will attempt to write data into restricted bucket and the unrestricted bucket.  The Cloud9 instance is running in your public subnet and has no route to the Gateway endpoint.  Consequently, traffic bound for S3 will traverse the Internet via the Internet Gateway in your lab.  
+1.  Refer to the collected output values from your CloudFormation stack.  Note the value of the “RestrictedS3Bucket” and "UnrestrictedS3Bucket" outputs.
 
-In your Cloud9 terminal window, open a terminal session.  
-
-![verify-1](./images/verify-1.png) 
-
-**Ensure that your session is connected to the Cloud9 instance and not the Sales App or Reports Engine EC2 instances.** 
-
-You will execute steps 1 and 2 from the Cloud9 EC2 instance bash prompt:**
-
-1.  Refer to the collected output values from your CloudFormation stack.  Note the value of the “RestrictedS3Bucket” and "UnrestrictedS3Bucket" outputs.  
-2.  Execute the commands provided below AFTER replacing the values of <RestrictedS3Bucket> and <UnrestrictedS3Bucket> with the output values collected in step 1.  Make note of the results.
+**Ensure that your session is connected to the Cloud9 instance and not the Sales App or Reports Engine EC2 instances.  You will execute steps 2 and 3 from the Cloud9 EC2 instance bash prompt:**
+  
+2.  Execute the commands provided below AFTER replacing the values of <UnrestrictedS3Bucket> with the output values collected in step 1.  Make note of the results.
 
 ``` json
 touch test.txt
-aws s3 cp test.txt s3://<RestrictedS3Bucket>/test.txt
+aws sts get-caller-identity
+nslookup s3.amazonaws.com
 aws s3 cp test.txt s3://<UnrestrictedS3Bucket>/test.txt
-
 aws s3 rm s3://<UnrestrictedS3Bucket>/test.txt   
-aws s3 rm s3://<RestrictedS3Bucket>/test.txt     
 ```
 
-**Expected behavior When Executed from Cloud9 Instance is:** 
-* The restricted bucket policy will **DENY** s3:putObject calls, because these will occur over the Internet and not via the endpoint and the resource policy on the restricted bucket will DENY this action. 
-* The unrestricted bucket will **ALLOW** s3:putObject calls, because the unrestricted bucket does not have a bucket policy requiring use of the endpoint. 
+**Expected behavior** 
 
 |Command   |  Executed from Cloud9 EC2 Instance |   
 |---|---|
-| aws s3 cp test.txt s3://'RestrictedS3Bucket'/test.txt    |  upload failed | 
 | aws s3 cp test.txt s3://'UnrestrictedS3Bucket'/test.txt  |  upload |  
 
-3. Connect to the Sales App EC2 instance.  You will now establish an SSH connection to the EC2 Sales App instance running in a private subnet in the lab VPC.  Execute the commands provided below AFTER replacing the values of <RestrictedS3Bucket> and <UnrestrictedS3Bucket> with the output values collected in step 1.  Make note of the results. 
+Why does this work ?
+
+![figure25](./images/us-east-1/figure25.png) 
+
+A.  The Cloud9 instance is on the public subnet. When you execute the aws s3 cp command, the AWS CLI signs your API request using credentials associated with the identity returned by the aws sts get-caller-identity.  The AWS CLI uses DNS to resolve the address for Amazon Simple Storage Service(S3).  A public address is returned (as output from the nslookup command shows).  The route table for your Cloud9 instance does not have an entry for the VPC Endpoint and traffic destined for S3 is sent to the Internet Gateway using the 0.0.0.0/0 route table entry.  
+B.  The request is routed to the public IP address of the S3 service.  
+C.  When the request reaches S3, IAM verifies that the request is authenticated and authorized before completing the request. In this example, the identity signing the request (the active identity signing the request can be seen in output from the aws sts get-caller-identity aws cli command)has permissions to write this object into S3.  IAM permissions assigned to the (administrative) user **ALLOW** data to be written to the unrestricted bucket. The unrestricted bucket does not have a policy.
+
+2.  Execute the commands provided below AFTER replacing the values of <RestrictedS3Bucket> with the output values collected in step 1.  Make note of the results.
+
+``` json
+touch test.txt
+aws sts get-caller-identity
+nslookup s3.amazonaws.com
+aws s3 cp test.txt s3://<RestrictedS3Bucket>/test.txt
+aws s3 rm s3://<RestrictedS3Bucket>/test.txt   
+```
+
+**Expected behavior** 
+
+|Command   |  Executed from Cloud9 EC2 Instance |   
+|---|---|
+| aws s3 cp test.txt s3://'RestrictedS3Bucket'/test.txt  |  upload failed |  
+
+Why does this not work ?
+
+![figure26](./images/us-east-1/figure26.png) 
+
+A.  The Cloud9 instance is on the public subnet. When you execute the aws s3 cp command, the AWS CLI signs your API request using credentials associated with the identity returned by the aws sts get-caller-identity.  The AWS CLI uses DNS to resolve the address for Amazon Simple Storage Service(S3).  A public address is returned (as output from the nslookup command shows).  The route table for your Cloud9 instance does not have an entry for the VPC Endpoint and traffic destined for S3 is sent to the Internet Gateway using the 0.0.0.0/0 route table entry.  
+B.  The request is routed to the public IP address of the S3 service.  
+C.  When the request reaches S3, IAM verifies that the request is authenticated and authorized before completing the request. In this example, the identity signing the request (the active identity signing the request can be seen in output from the aws sts get-caller-identity aws cli command)has permissions to write this object into S3.  IAM permissions assigned to the (administrative) user **ALLOW** data to be written to the unrestricted bucket. The restricted bucket policy will **DENY** s3:putObject calls, because these will occur over the Internet and not via the S3 Gateway VPC endpoint and the resource policy on the restricted bucket will DENY this action. 
+
+
+**Ensure that your session is connected to the Sales App EC2 instance and not the Cloud9 or Reports Engine EC2 instances.  You will execute step 4 from the Sales App EC2 bash prompt:**
+
+4. Connect to the Sales App EC2 instance.  You will now establish an SSH connection to the EC2 Sales App instance running in a private subnet in the lab VPC.  Execute the commands provided below AFTER replacing the values of <RestrictedS3Bucket> and <UnrestrictedS3Bucket> with the output values collected in step 1.  Make note of the results. 
 
 ``` json
 ssh ec2-user@salesapp -i vpce.pem
