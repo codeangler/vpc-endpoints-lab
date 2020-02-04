@@ -1,4 +1,4 @@
-
+![verify-interface-nav](./images/us-east-1/verify-interface-nav.png) 
 
 ## Verify the Interface Endpoint Configuration 
 
