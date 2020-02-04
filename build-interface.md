@@ -19,7 +19,7 @@ You will now examine/update configurations to control access to resources and en
 
 (Optional) Review the IAM permissions in your lab:
 
-1.  Revisit (if required) the IAM permissions assigned to the Sales App and Reports Engine EC2 instances as covered during the section 'Part 1: Gateway Endpoint IAM Roles'.  Each EC2 instance has the required permissions to S3 and SQS.
+1.  Revisit (if required) the IAM permissions assigned to the Sales App and Reports Engine EC2 instances as covered during the section 'Part 1: Gateway Endpoint IAM Roles'.  Each EC2 instance has the required permissions to S3 and SQS.  Notice that the SalesApp role has the permissions to execute "sqs:SendMessage" and "sqs:ReceiveMessage". Notice that the ReportsEngine role has the permissions to execute "sqs:ReceiveMessage" and "sqs:DeleteMessage"
 
 ## Part 2. Interface Endpoint - Security Groups
 
