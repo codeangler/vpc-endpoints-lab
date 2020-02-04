@@ -35,7 +35,7 @@ aws s3 rm s3://<UnrestrictedS3Bucket>/test.txt
 **B.**  The request is routed to the public IP address of the S3 service.  
 **C.**  When the request reaches S3, IAM verifies that the request is authenticated and authorized before completing the request. In this example, the identity signing the request (the active identity signing the request can be seen in output from the aws sts get-caller-identity aws cli command)has permissions to write this object into S3.  IAM permissions assigned to the (administrative) user **ALLOW** data to be written to the unrestricted bucket. The unrestricted bucket does not have a policy.
 
-2.  Execute the commands provided below AFTER replacing the values of <RestrictedS3Bucket> with the output values collected in step 1.  Make note of the results.
+3.  Execute the commands provided below AFTER replacing the values of <RestrictedS3Bucket> with the output values collected in step 1.  Make note of the results.
 
 ``` json
 touch test.txt
@@ -51,7 +51,7 @@ aws s3 rm s3://<RestrictedS3Bucket>/test.txt
 |---|---|
 | aws s3 cp test.txt s3://'RestrictedS3Bucket'/test.txt  |  upload failed |  
 
-Why does this not work ?
+**Why does this NOT work ?**
 
 ![figure26](./images/us-east-1/figure26.png) 
 
@@ -59,10 +59,14 @@ A.  The Cloud9 instance is on the public subnet. When you execute the aws s3 cp 
 B.  The request is routed to the public IP address of the S3 service.  
 C.  When the request reaches S3, IAM verifies that the request is authenticated and authorized before completing the request. In this example, the identity signing the request (the active identity signing the request can be seen in output from the aws sts get-caller-identity aws cli command)has permissions to write this object into S3.  IAM permissions assigned to the (administrative) user **ALLOW** data to be written to the unrestricted bucket. The restricted bucket policy will **DENY** s3:putObject calls, because these will occur over the Internet and not via the S3 Gateway VPC endpoint and the resource policy on the restricted bucket will DENY this action. 
 
+The S3 bucket policy you added to the **restricted** bucket enforces the requirement that writes into Amazon S3 occur via our VPC Endpoint.
 
-**Ensure that your session is connected to the Sales App EC2 instance and not the Cloud9 or Reports Engine EC2 instances.  You will execute step 4 from the Sales App EC2 bash prompt:**
+**Ensure that your session is connected to the Sales App EC2 instance.  You will execute step 4 from the Sales App EC2 bash prompt:**
 
-4. Connect to the Sales App EC2 instance.  You will now establish an SSH connection to the EC2 Sales App instance running in a private subnet in the lab VPC.  Execute the commands provided below AFTER replacing the values of <RestrictedS3Bucket> and <UnrestrictedS3Bucket> with the output values collected in step 1.  Make note of the results. 
+4. Connect to the Sales App EC2 instance.  You will now establish an SSH connection to the EC2 Sales App instance running in a private subnet in the lab VPC.  
+
+ 
+Execute the commands provided below AFTER replacing the values of <RestrictedS3Bucket> and <UnrestrictedS3Bucket> with the output values collected in step 1.  Make note of the results. 
 
 ``` json
 ssh ec2-user@salesapp -i vpce.pem
