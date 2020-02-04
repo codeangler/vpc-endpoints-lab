@@ -35,7 +35,7 @@ The role will be named with the cloudFormation stack name, followed by the regio
 2.	Expand the attached policies to review permissions.  Notice:
 
 * The salesapp role has read and write access to both the restricted and unrestricted buckets.   It will use the "s3:PutObject" API call to write data into the restricted S3 bucket. 
-* The salesapp role has permissions on the SQS queue, including read and write access.  It will use the "sqs:SendMessage" API call to write a message on the Queue and indicate data for the sales report has been written into the restricted S3 bucket.
+* The salesapp role has read and write access to the SQS queue.  It will use the "sqs:SendMessage" API call to write a message on the Queue and indicate data for the sales report has been written into the restricted S3 bucket.
 
 3.	Review the trust policy by clicking on the Trust tab.  Notice that the identity provider(s) ec2.amazonaws.com is a trusted entity.  This trust policy allows the sales app EC2 instance to use the role.
 
@@ -60,9 +60,9 @@ You will now review the Route Tables in use by the lab EC2 instances
 
 ![figure12](./images/us-east-1/figure12.png) 
 
-1.  Collect the output values from your CloudFormation stack for PrivateSubnet1ARouteTable and PrivateSubnet2ARouteTable.  These are the route tables associated to your private subnets and affect the routing behavior of your EC2 instances; Sales App and Reports Engine.
+1.  Collect the output values from your CloudFormation stack for PrivateSubnet1ARouteTable and PrivateSubnet2ARouteTable.  These are the route tables associated to your private subnets and affect the routing behavior of your EC2 instances; Sales App and Reports Engine.  Collect the value for PublicSubnetRouteTable - this is the route table used by your Cloud9 instance. 
 2.  Access the Route table screen in the VPC dashboard in the AWS console at the following URL: https://us-east-1.console.aws.amazon.com/vpc/home?region=us-east-1#RouteTables:sort=routeTableId
-3.  Highlight one of the route tables and examine the route table entries.  Note that a prefix list (format pl-xxx) entry has been populated in the route table and its target is the gateway vpc endpoint.  This entry is automatically populated by AWS when a gateway endpoint is created and associated with a subnet. 
+3.  Highlight one of the private route tables and examine the route table entries.  Note that a prefix list (format pl-xxx) entry has been populated in the route table and its target is the gateway vpc endpoint.  This entry is automatically populated by AWS when a gateway endpoint is created and associated with a subnet. 
 
 ![figure13](./images/us-east-1/figure13.png) 
 
@@ -147,6 +147,8 @@ Resource policy - S3 bucket policy template/example
 }
 
 ```
+
+![figure17a](./images/us-east-1/figure17a.png) 
 
 **Important**: The aws:sourceVpce condition key is populated when a request passes through a VPC endpoint.  The S3 bucket policy tests for this condition and DENIES requests which do not contain/do not equal the condition.    
 
