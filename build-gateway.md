@@ -86,7 +86,7 @@ You will now configure the Gateway Endpoint Resource Policy restricting which S3
 
 3.	Select your S3 Gateway Endpoint ID in the upper pane of the AWS console.  Details for the endpoint are presented in the lower pane.  Click on the Policy tab.  Click “Edit Policy” to edit the policy.  Click the custom radio button so that you can enter a custom policy.
 
-Resource policy - Gateway Endpoint policy template/example    
+**Resource policy - Gateway Endpoint policy template/example**    
 
 ``` json
 {
