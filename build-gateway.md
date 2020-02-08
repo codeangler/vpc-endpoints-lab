@@ -108,10 +108,10 @@ You will now configure the Gateway Endpoint Resource Policy restricting which S3
 
 **Important Gateway Endpoint Considerations**:  
 
-a - For gateway endpoints only, you cannot limit the principal to a specific IAM role or user. We specify "*" to grant access to all IAM roles and users. For gateway endpoints only, if you specify the principal in the format "AWS":"AWS-account-ID" or "AWS":"arn:aws:iam::AWS-account-ID:root", access is granted to the AWS account root user only, and not all IAM users and roles for the account. (Ref:  https://docs.aws.amazon.com/vpc/latest/userguide/vpc-endpoints-access.html)
-b - You cannot use an IAM policy or bucket policy to allow access from a VPC IPv4 CIDR range.  VPC CIDR blocks can be overlapping or identical, which may lead to unexpected results. Therefore, you cannot use the aws:SourceIp condition in your IAM policies for requests to Amazon S3 through a VPC endpoint. 
-c - You can restrict access to a specific endpoint or to a specific VPC or specific vpc endpoint  
-d - Endpoints are currently supported for IPv4 traffic only
+* For gateway endpoints only, you cannot limit the principal to a specific IAM role or user. We specify "*" to grant access to all IAM roles and users. For gateway endpoints only, if you specify the principal in the format "AWS":"AWS-account-ID" or "AWS":"arn:aws:iam::AWS-account-ID:root", access is granted to the AWS account root user only, and not all IAM users and roles for the account. (Ref:  https://docs.aws.amazon.com/vpc/latest/userguide/vpc-endpoints-access.html)
+* You cannot use an IAM policy or bucket policy to allow access from a VPC IPv4 CIDR range.  VPC CIDR blocks can be overlapping or identical, which may lead to unexpected results. Therefore, you cannot use the aws:SourceIp condition in your IAM policies for requests to Amazon S3 through a VPC endpoint. 
+* You can restrict access to a specific endpoint or to a specific VPC or specific vpc endpoint  
+* Endpoints are currently supported for IPv4 traffic only
 
 4.	Refer to the collected output values from your CloudFormation.  Copy/paste the value of the “RestrictedS3BucketName” output and use it to replace the value of examplerestrictedbucketname in the template/example above and save the custom policy.
 
