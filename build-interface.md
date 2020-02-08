@@ -38,14 +38,15 @@ Review the security group configuration in your lab:
 1.	Refer to the collected output values from your CloudFormation stack.  Note the value of the “InterfaceSecurityGroupURL” output.  This is the URL to review the security group associated with your interface endpoint.
 2.	Paste the value in your browser and select the security group in the top pane.
 3.	Click on the Inbound tab in the lower pane to see inbound security group rules.  The development team have restricted access to the CIRD range 10.0.0.0/8.
-4.	Further restrict the inbound rules.  Update the existing inbound security group rule by clicking Edit.  Remove the existing rule.  Create two new inbound rules; one for each private subnet in your VPC.  Reference the CIDR ranges of each private subnet (10.0.1.0/24, 10.0.2.0/24) to further constrain network access to the interface endpoint and the SQS queue it provides access to - https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html#AddRemoveRules
+4.	
+![figure21](./images/us-east-1/figure21.png)
 
-![secgrps1](./images/us-east-1/secgrps1.png)  
+4.	Further restrict the inbound rules.  Update the existing inbound security group rule by clicking the Edit button in the lower pane.  Remove the existing rule (10.0.0.0/8).  Create two new inbound rules; one for each private subnet in your VPC (10.0.1.0/24, 10.0.2.0/24).  Reference the CIDR ranges of each private subnet to further constrain network access to the interface endpoint and the SQS queue it provides access to - https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html#AddRemoveRules
+
 ![secgrps2](./images/us-east-1/secgrps2.png)  
 ![secgrps3](./images/us-east-1/secgrps3.png)  
 
-![figure21](./images/us-east-1/figure21.png)  
-
+  
 ## Part 3. Interface Endpoint - Interface Endpoint Resource Policy 
 
 ![figure22](./images/us-east-1/figure22.png)  
