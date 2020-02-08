@@ -69,7 +69,7 @@ You will now review the Route Tables in use by the lab EC2 instances
 
 1.  Collect the output values from your CloudFormation stack for PrivateSubnet1ARouteTable and PrivateSubnet2ARouteTable.  These are the route tables associated to your private subnets and affect the routing behavior of your EC2 instances; Sales App and Reports Engine.  Collect the value for PublicSubnetRouteTable - this is the route table used by your Cloud9 instance. 
 2.  Access the Route table screen in the VPC dashboard in the AWS console at the following URL: https://us-east-1.console.aws.amazon.com/vpc/home?region=us-east-1#RouteTables:sort=routeTableId
-3.  Highlight one of the private route tables and examine the route table entries.  Note that a prefix list (format pl-xxx) entry has been populated in the route table and its target is the gateway vpc endpoint.  This entry is automatically populated by AWS when a gateway endpoint is created and associated with a subnet. 
+3.  Highlight one of the private route tables and examine the route table entries.  Notice that an immutable entry with a prefix list (format pl-xxx) entry has been populated in the route table and its target is the gateway vpc endpoint.  This entry is automatically populated by AWS when a gateway endpoint is created and associated with a subnet. The prefix list ID logically represents the range of public IP addresses used by the service. All instances in subnets associated with the specified route tables automatically use the endpoint to access the service. Subnets that are not associated with the specified route tables do not use the endpoint. This enables you to keep resources in other subnets separate from your endpoint. To view the current public IP address range for a service, you can use the describe-prefix-lists command from the aws cli. For more information see: https://docs.aws.amazon.com/vpc/latest/userguide/vpce-gateway.html#vpc-endpoints-routing 
 
 ![figure13](./images/us-east-1/figure13.png) 
 
@@ -81,9 +81,10 @@ You will now configure the Gateway Endpoint Resource Policy restricting which S3
 
 1.	Access the Endpoints screen in the VPC dashboard in the AWS console: https://us-east-1.console.aws.amazon.com/vpc/home?region=us-east-1#Endpoints:sort=vpcEndpointId
 2.	Refer to the collected output values from your CloudFormation.  Note the value of the “S3VPCGatewayEndpoint” output.  This is your VPC Gateway Endpoint ID.
-3.	Select your S3 Gateway Endpoint ID in the upper pane of the AWS console.  Details for the endpoint are presented in the lower pane.  Click on the Policy tab.  Click “Edit Policy” to edit the policy.  Click the custom radio button so that you can enter a custom policy.
 
 ![figure15](./images/us-east-1/figure15.png) 
+
+3.	Select your S3 Gateway Endpoint ID in the upper pane of the AWS console.  Details for the endpoint are presented in the lower pane.  Click on the Policy tab.  Click “Edit Policy” to edit the policy.  Click the custom radio button so that you can enter a custom policy.
 
 Resource policy - Gateway Endpoint policy template/example    
 
@@ -105,10 +106,12 @@ Resource policy - Gateway Endpoint policy template/example
 }	
 ```
 
-**Important**:  For gateway endpoints only, you cannot limit the principal to a specific IAM role or user. We specify "*" to grant access to all IAM roles and users. For gateway endpoints only, if you specify the principal in the format "AWS":"AWS-account-ID" or "AWS":"arn:aws:iam::AWS-account-ID:root", access is granted to the AWS account root user only, and not all IAM users and roles for the account. (Ref:  https://docs.aws.amazon.com/vpc/latest/userguide/vpc-endpoints-access.html)
+**Important Gateway Endpoint Considerations**:  
 
-
-Using the endpoint policy template/example above, update the endpoint policy:
+a - For gateway endpoints only, you cannot limit the principal to a specific IAM role or user. We specify "*" to grant access to all IAM roles and users. For gateway endpoints only, if you specify the principal in the format "AWS":"AWS-account-ID" or "AWS":"arn:aws:iam::AWS-account-ID:root", access is granted to the AWS account root user only, and not all IAM users and roles for the account. (Ref:  https://docs.aws.amazon.com/vpc/latest/userguide/vpc-endpoints-access.html)
+b - You cannot use an IAM policy or bucket policy to allow access from a VPC IPv4 CIDR range.  VPC CIDR blocks can be overlapping or identical, which may lead to unexpected results. Therefore, you cannot use the aws:SourceIp condition in your IAM policies for requests to Amazon S3 through a VPC endpoint. 
+c - You can restrict access to a specific endpoint or to a specific VPC or specific vpc endpoint  
+d - Endpoints are currently supported for IPv4 traffic only
 
 4.	Refer to the collected output values from your CloudFormation.  Copy/paste the value of the “RestrictedS3BucketName” output and use it to replace the value of examplerestrictedbucketname in the template/example above and save the custom policy.
 
