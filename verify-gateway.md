@@ -51,11 +51,11 @@ Note:  If you are using the event engine platform for this lab, the effective id
 
 **Cloud9 to Restricted Bucket**
 
-Verify that Cloud9 can NOT successfully write into the **restricted** bucket (bucket with a bucket policy) via the Internet
+Verify that Cloud9 **CANNOT** successfully write into the **restricted** bucket (bucket with a bucket policy) via the Internet
 
 We will now verify the S3 Bucket Policy configuration to validate it meets the stated requirements.  
 
-The S3 bucket policy you added to the **restricted** bucket (bucket with a bucket policy) enforces the requirement that writes into it occur via our VPC Endpoint.
+The S3 bucket policy you added to the **restricted** bucket enforces the requirement that writes into it occur via the Gateway VPC Endpoint you configured.
 
 1.  Refer to the collected output values from your CloudFormation stack.  Note the value of the "RestrictedS3Bucket" output.  You will substitute this value into the commands below.
 
