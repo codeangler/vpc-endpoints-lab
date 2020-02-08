@@ -42,11 +42,11 @@ A VPC Interface policy controls access to an Interface endpoint.  We will use it
 
 Update the Interface Endpoint policy in your lab (an template/example is provided below):
 
-1. Refer to the collected output values from your CloudFormation stack.  Note the value of the “SQSQueueARN” output.  This is your SQS Queue ARN.
-2. Replace the placeholder value “examplequeueARN” with the SQSQueueARN value
-3. Refer to the collected output values from your CloudFormation stack.  Note the value of the “AWSAccountID” output.  This is the AWS Account ID being used for this lab.
-4. Replace the placeholder value “exampleaccountid” with the AWS Account ID value
-5. Save and close.
+1. Refer to the collected output values from your CloudFormation stack.  Note the value of the “InterfaceEndpointPolicyURL” output. Copy this value and paste it into your browser to access the Interface Endpoint in your VPC dashboard.
+2. Select the policy tab in the lower pane of your Interface Endpoint 
+3. Refer to the value of the “AWSAccountID” output from your CloudFormation stack.  This is the AWS Account ID being used for this lab.
+4. Use the example resource policy below. Replace the placeholder value “exampleaccountid” with the AWS Account ID value.  Replace the value of "examplequeueARN" with the output value named SQSQueueARN	from your CloudFormation stack.
+5. Edit the Interface Endpoint policy on your Interface Endpoint for SQS.  Enter the custom policy you have created based on the example below. Save and close.
 
 Resource policy - Interface Endpoint policy template/example     
 
