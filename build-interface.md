@@ -27,7 +27,7 @@ You will now examine/update configurations to control access to resources and en
 
 (Optional) Review the IAM permissions in your lab:
 
-1.  Revisit (if required) the IAM permissions assigned to the Sales App and Reports Engine EC2 instances as covered during the section 'Part 1: Gateway Endpoint IAM Roles'.  Each EC2 instance has the required permissions to S3 and SQS.  Notice that the SalesApp role has the permissions to execute "sqs:SendMessage" and "sqs:ReceiveMessage". Notice that the ReportsEngine role has the permissions to execute "sqs:ReceiveMessage" and "sqs:DeleteMessage"
+1.  Revisit (if required) the IAM permissions assigned to the Sales App and Reports Engine EC2 instances as covered during Section 1 Part 1: Gateway Endpoint IAM Roles.  Notice that the SalesApp role has the permissions to execute "sqs:SendMessage" and "sqs:ReceiveMessage". Notice that the ReportsEngine role has the permissions to execute "sqs:ReceiveMessage" and "sqs:DeleteMessage"
 
 ## Part 2. Interface Endpoint - Security Groups
 
@@ -37,8 +37,8 @@ Review the security group configuration in your lab:
 
 1.	Refer to the collected output values from your CloudFormation stack.  Note the value of the “InterfaceSecurityGroupURL” output.  This is the URL to review the security group associated with your interface endpoint.
 2.	Paste the value in your browser and select the security group in the top pane.
-3.	Click on the Inbound tab in the lower ne to see inbound security group rules.  The development team have restricted access to 10.0.0.0/8.
-4.	(Optional).  Further restrict the inbound rules.  Inbound rules could be reference the security groups associated to the sales app and the reports engine EC2 instances or reference the CIDR ranges of the private subnets only to constrain network access to the interface endpoint and the SQS queue it provides access to - https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html#AddRemoveRules
+3.	Click on the Inbound tab in the lower pane to see inbound security group rules.  The development team have restricted access to the CIRD range 10.0.0.0/8.
+4.	(Optional).  Further restrict the inbound rules.  Inbound rules could reference the security groups associated to the sales app and the reports engine EC2 instances or reference the CIDR ranges of the private subnets only to further constrain network access to the interface endpoint and the SQS queue it provides access to - https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html#AddRemoveRules
 
 ![figure21](./images/us-east-1/figure21.png)  
 
@@ -56,7 +56,7 @@ Update the Interface Endpoint policy in your lab (an template/example is provide
 4. Use the example resource policy below. Replace the placeholder value “exampleaccountid” with the AWS Account ID value.  Replace the value of "examplequeueARN" with the output value named SQSQueueARN	from your CloudFormation stack.
 5. Edit the Interface Endpoint policy on your Interface Endpoint for SQS.  Enter the custom policy you have created based on the example below. Save and close.
 
-Resource policy - Interface Endpoint policy template/example     
+**Resource policy - Interface Endpoint policy template/example**     
 
 ``` json
 {
@@ -89,7 +89,7 @@ Update the SQS policy in your lab (a template/example is provided below):
 9.  Having updated the example policy (below) with values for your resources, update the SQS queue resource policy in the popup window...   
 10. Click review changes.  Click Save Changes. The queue with updated resource policy will display in the console..
 
-Resource policy - SQS Queue resource policy template/example    
+**Resource policy - SQS Queue resource policy template/example**    
 
 ``` json
  {
@@ -136,6 +136,14 @@ Resource policy - SQS Queue resource policy template/example
   ]
 } 
 ```
+
+**Important Interface Endpoint Considerations**: 
+
+* When you create an interface endpoint, we generate endpoint-specific DNS hostnames that you can use to communicate with the service. For AWS services and AWS Marketplace Partner services, private DNS (enabled by default) associates a private hosted zone with your VPC. The hosted zone contains a record set for the default DNS name for the service (for example, ec2.us-east-1.amazonaws.com) that resolves to the private IP addresses of the endpoint network interfaces in your VPC. This enables you to make requests to the service using its default DNS hostname instead of the endpoint-specific DNS hostnames. For example, if your existing applications make requests to an AWS service, they can continue to make requests through the interface endpoint without requiring any configuration changes. 
+For each interface endpoint, you can choose only one subnet per Availability Zone.
+* By default, each interface endpoint can support a bandwidth of up to 10 Gbps per Availability Zone. Additional capacity can be added automatically based on your usage. 
+* An interface endpoint supports TCP traffic only.
+* Endpoints are supported within the same Region only. You cannot create an endpoint between a VPC and a service in a different Region. 
 
 ---
 
