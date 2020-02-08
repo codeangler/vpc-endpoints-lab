@@ -127,7 +127,41 @@ The upload to the unrestricted bucket will fail.  The Gateway VPC Endpoint polic
 
 
 * The Sales App EC2 instance sits in a private subnet in your VPC and has a path in its route table to the gateway endpoint.  Calls to S3 are made via the gateway endpoint and access to the bucket occurs over a private network segment. S3:PutObject requests to the unrestricted bucket fail as the gateway endpoint policy will **DENY** access to the unrestricted bucket  
-* Access to the restricted bucket is successful.  
+
+
+**SalesApp EC2 to Restricted Bucket**
+
+Verify that SalesApp EC2 **CAN** successfully write into the **Restricted** bucket (bucket with no bucket policy) via the Gateway VPC Endpoint
+
+1.  Refer to the collected output values from your CloudFormation stack.  Note the value of the "RestrictedS3Bucket" output.  You will substitute this value into the commands below.
+
+**Ensure that your session is connected to the Sales App EC2 instance.  You will execute step 2 from the Sales App EC2 bash prompt.  If you do not already have a bash session connected to the Sales App EC2 instance execute the following commands from the Cloud9:**
+
+``` json
+ssh ec2-user@salesapp -i vpce.pem
+```
+
+4.  Execute the commands provided below AFTER replacing the values of <RestrictedS3Bucket> with the output value collected in step 1.  Make note of the results.
+
+
+``` json
+touch test.txt
+aws sts get-caller-identity
+nslookup s3.amazonaws.com
+aws s3 cp test.txt s3://<restrictedS3Bucket>/test.txt
+```
+
+**Expected behavior When Executed from Sales App EC2 Instance is:** 
+
+The upload to the restricted bucket will succeed.  The Gateway VPC Endpoint policy will ALLOW objects to be put into the restricted bucket.
+
+![verifyfigure4](./images/us-east-1/verifyfigure4.png) 
+
+**Why does this work ?**
+
+**A.**  The SalesApp instance is on the private subnet. When you execute the aws s3 cp command, the AWS CLI signs your API request using credentials associated with the identity returned by the aws sts get-caller-identity - the salesapprole.  The AWS CLI uses DNS to resolve the address for Amazon Simple Storage Service(S3).  The prefix list entry in the private route table dynamically resolves to the public CIDR ranges used by S3.  The associated target in the private route table for all S3 addresses is the S3 Gateway VPC Endpoint.  This route entry is more specific than a 0.0.0.0/0 route and the more specific route takes precedence.  Traffic destined for an S3public IP address is sent to the S3 Gateway VPC Endpoint.  The request is routed to S3 Gateway VPC Endpoint.  The S3 Gateway VPC Endpoint Policy restricts access to **ONLY** the restricted bucket and the request succeeds.
+
+![figure28](./images/us-east-1/figure28.png) 
 
 ---
 
