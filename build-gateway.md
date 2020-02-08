@@ -133,7 +133,7 @@ Update the S3 Bucket policy in your lab (a template/example is provided below):
 6.	Having updated the example policy (below) with values for your specific resources, add the bucket policy to the S3 bucket.   For additional instructions/clarifications to update the bucket policy see “How do I add an S3 bucket policy?” 
 
 
-Resource policy - S3 bucket policy template/example 
+**Resource policy - S3 bucket policy template/example**
 
 ``` json
  {
