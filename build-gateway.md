@@ -1,12 +1,12 @@
 Welcome to the VPC Endpoints Lab!!
 
-The lab is broken into 4 parts during which you will build and verify Gateway and Interface Endpoints:
-* Part 1: Build-Gateway Endpoint
-* [Part 2: Build-Interface Endpoint](https://github.com/harrisn6/vpc-endpoints-lab/blob/master/build-interface.md) 
-* [Part 3: Verify-Gateway Endpoint](https://github.com/harrisn6/vpc-endpoints-lab/blob/master/verify-gateway.md) 
-* [Part 4: Verify-Interface Endpoint](https://github.com/harrisn6/vpc-endpoints-lab/blob/master/verify-interface.md) 
+The lab is broken into 4 sections during which you will build and verify Gateway and Interface Endpoints:
+* Section 1: Build-Gateway Endpoint
+* [Section 2: Build-Interface Endpoint](https://github.com/harrisn6/vpc-endpoints-lab/blob/master/build-interface.md) 
+* [Section 3: Verify-Gateway Endpoint](https://github.com/harrisn6/vpc-endpoints-lab/blob/master/verify-gateway.md) 
+* [Section 4: Verify-Interface Endpoint](https://github.com/harrisn6/vpc-endpoints-lab/blob/master/verify-interface.md) 
 
-You are on Part 1: Build Gateway
+You are on Section 1: Build Gateway
 
 ![build-gateway-nav](./images/us-east-1/build-gateway-nav.png) 
 
@@ -110,7 +110,7 @@ Resource policy - Gateway Endpoint policy template/example
 
 Using the endpoint policy template/example above, update the endpoint policy:
 
-5.	Refer to the collected output values from your CloudFormation.  Copy/paste the value of the “RestrictedS3BucketName” output and use it to replace the value of examplerestrictedbucketname in the template/example above and save the custom policy.
+4.	Refer to the collected output values from your CloudFormation.  Copy/paste the value of the “RestrictedS3BucketName” output and use it to replace the value of examplerestrictedbucketname in the template/example above and save the custom policy.
 
 ![figure16](./images/us-east-1/figure16.png)  
 
