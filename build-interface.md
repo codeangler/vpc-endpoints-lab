@@ -41,11 +41,15 @@ Review the security group configuration in your lab:
 	
 ![figure21](./images/us-east-1/figure21.png)
 
-4.	Further restrict the inbound rules.  Update the existing inbound security group rule by clicking the Edit button in the lower pane.  Remove the existing rule (10.0.0.0/8).  Create two new inbound rules; one for each private subnet in your VPC (10.0.1.0/24, 10.0.2.0/24).  Reference the CIDR ranges of each private subnet to further constrain network access to the interface endpoint and the SQS queue it provides access to - https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html#AddRemoveRules
+4.	Further restrict the inbound rules.  Update the existing inbound security group rule by clicking the Edit button in the lower pane.  Remove the existing rule (10.0.0.0/8).  Create two new inbound rules; one for each private subnet in your VPC (10.0.1.0/24, 10.0.2.0/24).  
 
 ![secgrps2](./images/us-east-1/secgrps2.png)  
+
+Save your changes to further constrain network access to the interface endpoint and the SQS queue it provides access to.  
+
 ![secgrps3](./images/us-east-1/secgrps3.png)  
 
+For additional information regarding security group rule updates refer to the AWS documentation:  Ref: https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html#AddRemoveRules
   
 ## Part 3. Interface Endpoint - Interface Endpoint Resource Policy 
 
