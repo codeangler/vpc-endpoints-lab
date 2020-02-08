@@ -16,10 +16,10 @@ You will now examine/update configurations to control access to resources and en
 
 ![figure17](./images/us-east-1/figure18.png)  
 
-* **Part 1. Interface Endpoint - IAM Roles**.  The EC2 instances will use an IAM Role with associated IAM policies which provide permissions to execute API calls against SQS.  [See IAM roles for EC2 instances for more information.](https://aws.amazon.com/blogs/aws/iam-roles-for-ec2-instances-simplified-secure-access-to-aws-service-apis-from-ec2/)
-* **Part 2. Interface Endpoint - Interface Endpoint Resource Policy**.  Access to the SQS service will be restricted by an Interface Endpoint policy which allows access to a specific queue only and to IAM Principals within the lab AWS only.      
-* **Part 3. Interface Endpoint - Security Groups**.  You will restrict network access to the SQS Interface VPC endpoint using security groups.  The security group rules will only allow inbound access from members of the security group used by the Sales application. 
-* **Part 4. Interface Endpoint - SQS Queue Resource Policy**. Access to complete sqs:SendMessage, sqs:RecieveMessage or sqs:DeleteMessage API calls will be restricted by a resource policy (an Amazon SQS policy) that requires all messages written to the SQS queue are written via the specified VPC endpoint.
+* **Part 1.  Interface Endpoint - IAM Roles**.  The EC2 instances will use an IAM Role with associated IAM policies which provide permissions to execute API calls against SQS.  [See IAM roles for EC2 instances for more information.](https://aws.amazon.com/blogs/aws/iam-roles-for-ec2-instances-simplified-secure-access-to-aws-service-apis-from-ec2/)
+* **Part 2.  Interface Endpoint - Security Groups**.  You will restrict network access to the SQS Interface VPC endpoint using security groups.  The security group rules will only allow inbound access from private subnets in your VPC. 
+* **Part 3.  Interface Endpoint - Interface Endpoint Resource Policy**.  Access to the SQS service will be restricted by an Interface Endpoint policy which allows access to a specific queue only and to IAM Principals within your AWS account only.      
+* **Part 4.  Interface Endpoint - SQS Queue Resource Policy**. Access to complete sqs:SendMessage, sqs:RecieveMessage or sqs:DeleteMessage API calls will be restricted by a resource policy (an Amazon SQS policy) that requires all messages written to the SQS queue are written via the specified VPC endpoint.
 
 ## Part 1: Interface Endpoint - IAM Roles
 
@@ -38,7 +38,11 @@ Review the security group configuration in your lab:
 1.	Refer to the collected output values from your CloudFormation stack.  Note the value of the “InterfaceSecurityGroupURL” output.  This is the URL to review the security group associated with your interface endpoint.
 2.	Paste the value in your browser and select the security group in the top pane.
 3.	Click on the Inbound tab in the lower pane to see inbound security group rules.  The development team have restricted access to the CIRD range 10.0.0.0/8.
-4.	(Optional).  Further restrict the inbound rules.  Inbound rules could reference the security groups associated to the sales app and the reports engine EC2 instances or reference the CIDR ranges of the private subnets only to further constrain network access to the interface endpoint and the SQS queue it provides access to - https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html#AddRemoveRules
+4.	Further restrict the inbound rules.  Update the existing inbound security group rule by clicking Edit.  Remove the existing rule.  Create two new inbound rules; one for each private subnet in your VPC.  Reference the CIDR ranges of each private subnet (10.0.1.0/24, 10.0.2.0/24) to further constrain network access to the interface endpoint and the SQS queue it provides access to - https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html#AddRemoveRules
+
+![secgrps1](./images/us-east-1/secgrps1.png)  
+![secgrps2](./images/us-east-1/secgrps2.png)  
+![secgrps3](./images/us-east-1/secgrps3.png)  
 
 ![figure21](./images/us-east-1/figure21.png)  
 
