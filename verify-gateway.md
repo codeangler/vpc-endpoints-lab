@@ -17,7 +17,7 @@ Verify that Cloud9 can successfully write into the **unrestricted** bucket (buck
 
 1.  Refer to the collected output values from your CloudFormation stack.  Note the value of the "UnrestrictedS3Bucket" output.  You will substitute this value into the commands below.
 
-**Ensure that your session is connected to the Cloud9 instance.  You will execute steps 2 and 3 from the Cloud9 EC2 instance bash prompt:**
+**Ensure that your session is connected to the Cloud9 instance.  You will execute step 2 from the Cloud9 EC2 instance bash prompt:**
   
 2.  Execute the commands provided below AFTER replacing the values of <UnrestrictedS3Bucket> with the output value collected in step 1.  Make note of the results.
 
@@ -59,7 +59,7 @@ The S3 bucket policy you added to the **restricted** bucket enforces the require
 
 1.  Refer to the collected output values from your CloudFormation stack.  Note the value of the "RestrictedS3Bucket" output.  You will substitute this value into the commands below.
 
-**Ensure that your session is connected to the Cloud9 instance.  You will execute steps 2 and 3 from the Cloud9 EC2 instance bash prompt:**
+**Ensure that your session is connected to the Cloud9 instance.  You will execute step 2 from the Cloud9 EC2 instance bash prompt:**
 
 2. Execute the commands provided below AFTER replacing the values of <RestrictedS3Bucket> with the output values collected in step 1.  Make note of the results.
 
@@ -90,13 +90,20 @@ Note:  If you are using the event engine platform for this lab, the effective id
 
 The S3 bucket policy you added to the **restricted** bucket enforces the requirement that writes into Amazon S3 occur via our VPC Endpoint.
 
-**Ensure that your session is connected to the Sales App EC2 instance.  You will execute step 4 from the Sales App EC2 bash prompt.  If you do not already have a session connected to the Sales App EC2 instance execute the following commands from the Cloud9:**
+
+**SalesApp EC2 to UnRestricted Bucket**
+
+Verify that SalesApp EC2 **CANNOT** successfully write into the **unrestricted** bucket (bucket with no bucket policy) via the Gateway VPC Endpoint
+
+1.  Refer to the collected output values from your CloudFormation stack.  Note the value of the "UnrestrictedS3Bucket" output.  You will substitute this value into the commands below.
+
+**Ensure that your session is connected to the Sales App EC2 instance.  You will execute step 2 from the Sales App EC2 bash prompt.  If you do not already have a bash session connected to the Sales App EC2 instance execute the following commands from the Cloud9:**
 
 ``` json
 ssh ec2-user@salesapp -i vpce.pem
 ```
 
-4.  Execute the commands provided below AFTER replacing the values of <RestrictedS3Bucket> with the output values collected in step 1.  Make note of the results.
+4.  Execute the commands provided below AFTER replacing the values of <UnrestrictedS3Bucket> with the output value collected in step 1.  Make note of the results.
 
 
 ``` json
@@ -104,15 +111,11 @@ touch test.txt
 aws sts get-caller-identity
 nslookup s3.amazonaws.com
 aws s3 cp test.txt s3://<UnrestrictedS3Bucket>/test.txt
-aws s3 rm s3://<UnrestrictedS3Bucket>/test.txt   
 ```
 
 **Expected behavior When Executed from Sales App EC2 Instance is:** 
 
-|Command   |  Executed from Cloud9 EC2 Instance |   
-|---|---|
-| aws s3 cp test.txt s3://'UnrestrictedS3Bucket'/test.txt  |  upload failed | 
-
+The upload to the unrestricted bucket will fail.  The Gateway VPC Endpoint policy will only ALLOW objects to be put into the restricted bucket.
 
 **Why does this NOT work ?**
 
