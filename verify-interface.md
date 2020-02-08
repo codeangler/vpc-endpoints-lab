@@ -8,26 +8,53 @@ You are on Section 4: Verify Interface
 
 ![verify-interface-nav](./images/us-east-1/verify-interface-nav.png) 
 
+
 ## Verify the Interface Endpoint Configuration 
 
-1. From the Cloud9 EC2 instance, establish an SSH connection to the Sales App EC2 instance running in a private subnet in the lab VPC.   
+**Important Note:**  In the Section Build Interface Endpoint.  In 'Build - Interface Endpoint' Part Two Step 4 you had the optional task of restricting the inbound rules from 10.0.0.0/8 to the SQS interface endpoint.  
+If you restricted inbound access on this security group, do not complete tests to verify Cloud9 to SQSQueue connectivity - the security group changes that you put in place will restrict network connectivity from the Cloud9 instance to the SQS Interface endpoint. 
 
-``` json
-ssh ec2-user@salesapp -i vpce.pem
-```
+**Cloud9 to SQSQueue**
 
-2. Execute an nslookup command
+Verify that Cloud9 **CANNOT** successfully write into the SQS Queue via the VPC Interface Endpoint due to the Interface Endpoint Policy. 
+
+1. Refer to the collected output values from your CloudFormation stack.  Note the value of the "SQSQueueURL" and "RestrictedS3Bucket" output.  You will substitute these values into the commands below. 
+
+**Ensure that your session is connected to the Cloud9 instance.  You will execute step 2 from the Cloud9 EC2 instance bash prompt:**
+  
+2.  Execute the commands provided below AFTER replacing the values of SQSQueueURL and with the output value collected in step 1.  Make note of the results.
+
 
 ``` json
 nslookup sqs.us-east-1.amazonaws.com
+aws sts get-caller-identity
+aws sqs send-message --queue-url <value> --message-body "{datafilelocation:s3://<restrictedbucket>/test.txt}" --region us-east-1
 ```
 
-You will observe that when executing the nslookup command, providing the public DNS name for the SQS service returns IP addresses that are from the private IP CIDR within your VPC. 
+**Expected behavior** 
+
+A message will be sent into the SQS Queue 
+
+![verifyfigure5](./images/us-east-1/verifyfigure5.png) 
+
+
+**Why does this work ?**
+
+
+You will observe that when executing the nslookup command, the public DNS name for the SQS service returns IP addresses that are from the private IP CIDR within your VPC. 
 
 These addresses are the IP addresses used by the interface endpoints provisioned in your lab VPC.  You can view the Elastic Network Interfaces provisioned for your interface endpoint in the EC2 Console under network interfaces.  
 This behavior is common across all instances within the VPC, since they all use the private DNS service within the VPC.  You can locate the ENIs being used by the interface endpoints.
 
 Access the following link to observe each ENI (1 per AZ): (https://us-east-1.console.aws.amazon.com/ec2/home?region=us-east-1#NIC:search=InterfaceSecurity;sort=networkInterfaceId)
+
+When you execute the aws sqs send-message command, the AWS CLI signs your API request using credentials associated with the identity returned by the aws sts get-caller-identity.  The AWS CLI uses DNS to resolve the address for Amazon Simple Queue Service(SQS).  A private address is returned (as output from the nslookup command shows).  The route table for your Cloud9 instance uses the local entry for the VPC Interface Endpoint and traffic destined for SQS is sent to the Interface Endpoint.  
+
+Note:  When you create an interface endpoint, AWS generates endpoint-specific DNS hostnames that you can use to communicate with the service. For AWS services and AWS Marketplace Partner services, private DNS (enabled by default) associates a private hosted zone with your VPC. The hosted zone contains a record set for the default DNS name for the service (for example, ec2.us-east-1.amazonaws.com) that resolves to the private IP addresses of the endpoint network interfaces in your VPC. This enables you to make requests to the service using its default DNS hostname instead of the endpoint-specific DNS hostnames. For example, if your existing applications make requests to an AWS service, they can continue to make requests through the interface endpoint without requiring any configuration changes. For more details see: https://docs.amazonaws.cn/en_us/vpc/latest/userguide/vpce-interface.html#vpce-private-dns
+
+
+!!!!!!!!HERER!!!!!
+
 
 **Ensure that your session is connected to the the Sales App EC2 instance.** 
 
