@@ -44,7 +44,7 @@ The upload to the unrestricted bucket should succeed.
 
 **C.**  When the request reaches S3, IAM verifies that the request is authenticated and authorized before completing the request. In this example, the identity signing the request (the active identity signing the request can be seen in output from the aws sts get-caller-identity aws cli command)has permissions to write this object into S3.  IAM permissions assigned to the identity **ALLOW** data to be written to the unrestricted bucket. The unrestricted bucket does not have a policy.
 
-Note:  If you are using the event engine platform for this lab, the effective identity will be a role named "TeamRole".  This role has been configured with full access to S3.  If you are running this lab outside of the event engine platform, it is assumed that the identity being used to access Cloud9 has administrative privileges to S3.
+Note:  If you are using the event engine platform for this lab, the effective identity will be a role named "TeamRole".  This identity has been configured with full access to S3.  If you are running this lab outside of the event engine platform, it is assumed that the identity being used to access Cloud9 has administrative privileges to S3.
 
 ![figure25](./images/us-east-1/figure25.png) 
 
@@ -72,19 +72,19 @@ aws s3 cp test.txt s3://<RestrictedS3Bucket>/test.txt
 
 **Expected behavior** 
 
-The upload to the unrestricted bucket should NOT succeed. 
+The upload to the restricted bucket will be DENIED by the bucket policy
 
 ![verifyfigure2](./images/us-east-1/verifyfigure2.png) 
 
 **Why does this NOT work ?**
 
-**A.**  When you execute the aws s3 cp command, the AWS CLI signs your API request using credentials associated with the identity returned by the aws sts get-caller-identity.  If you are using the Event engine platform for your lab, this role will be federated into a role named "TeamRole".  If you are running this lab in an account that you own, the output shown by  the aws sts get-caller-identity cli command will show the AWS identity you are using to execute aws cli commands from the bash prompt in Cloud9.  The Cloud9 instance is on the public subnet. The AWS CLI uses DNS to resolve the address for Amazon Simple Storage Service(S3).  A public address is returned (as output from the nslookup command shows).  The route table for your Cloud9 instance does not have an entry for the VPC Endpoint and without specific routes to S3 in the public route table, traffic destined for S3 is sent to the Internet Gateway using the 0.0.0.0/0 route table entry.  
+**A.**  The Cloud9 instance is on the public subnet. When you execute the aws s3 cp command, the AWS CLI signs your API request using credentials associated with the identity returned by the aws sts get-caller-identity.  The AWS CLI uses DNS to resolve the address for Amazon Simple Storage Service(S3).  A public address is returned (as output from the nslookup command shows).  The route table for your Cloud9 instance does not have an entry for the VPC Endpoint and traffic destined for S3 is sent to the Internet Gateway using the 0.0.0.0/0 route table entry.  
 
-**B.**  The request is routed to the public IP address of the S3 service via the Internet.  
+**B.**  The request is routed to the public IP address of the S3 service.  
 
 **C.**  When the request reaches S3, IAM verifies that the request is authenticated and authorized before completing the request. In this example, the identity signing the request (as seen in output from the aws sts get-caller-identity aws cli command) has permissions to write this object into S3.  IAM permissions assigned to the effective identity **ALLOW** data to be written to the unrestricted bucket. The restricted bucket policy will **DENY** s3:putObject calls, because these will occur over the Internet and not via the S3 Gateway VPC endpoint and the resource policy on the restricted bucket will **DENY** this action. 
 
-Note:  If you are using the event engine platform for this lab, the effective identity will be a role named "TeamRole".  This role has been configured with full access to S3.  If you are running this lab outside of the event engine platform, it is assumed that the identity being used to access Cloud9 has administrative privileges to S3.
+Note:  If you are using the event engine platform for this lab, the effective identity will be a role named "TeamRole".  This identity has been configured with full access to S3.  If you are running this lab outside of the event engine platform, it is assumed that the identity being used to access Cloud9 has administrative privileges to S3.
 
 ![figure26](./images/us-east-1/figure26.png) 
 
