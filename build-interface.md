@@ -3,6 +3,8 @@ The lab is broken into 4 parts during which you will build and verify Gateway an
 * Part 2: Build-Interface Endpoint 
 * [Part 3: Build-Gateway Endpoint](https://github.com/harrisn6/vpc-endpoints-lab/blob/master/verify-gateway.md) 
 * [Part 4: Verify-Interface Endpoint](https://github.com/harrisn6/vpc-endpoints-lab/blob/master/verify-interface.md) 
+* 
+You are on Part 2: Build Interface
 
 ![build-interface-nav](./images/us-east-1/build-interface-nav.png) 
 
