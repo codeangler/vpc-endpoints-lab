@@ -18,27 +18,27 @@ If you restricted inbound access on this security group, do not complete tests t
 
 Verify that Cloud9 **CANNOT** successfully write into the SQS Queue via the VPC Interface Endpoint due to the Interface Endpoint Policy. 
 
-1. Refer to the collected output values from your CloudFormation stack.  Note the value of the "SQSQueueURL" and "RestrictedS3Bucket" output.  You will substitute these values into the commands below. 
+1. Refer to the collected output values from your CloudFormation stack.  Note the value of the "SQSQueueURL" and "RestrictedS3Bucket" output.  Also note the region where your lab is running.  You will substitute these values into the commands below. 
 
 **Ensure that your session is connected to the Cloud9 instance.  You will execute step 2 from the Cloud9 EC2 instance bash prompt:**
   
-2.  Execute the commands provided below AFTER replacing the values of SQSQueueURL and with the output value collected in step 1.  Make note of the results.
+2.  Execute the commands provided below AFTER (a) replacing <sqsqueueurlvalue> with the value of the output SQSQueueURL from your Cloudformation stack collected in step 1 (b) replacing <restrictedbucket> with the value of the output restrictedbucket from your Cloudformation stack collected in step 1 and (c) replacing <region> with the value of the region wherer you are executing the lab.  Make note of the results.
 
 
 ``` json
-nslookup sqs.us-east-1.amazonaws.com
+nslookup sqs.<region>.amazonaws.com
 aws sts get-caller-identity
-aws sqs send-message --queue-url <value> --message-body "{datafilelocation:s3://<restrictedbucket>/test.txt}" --region us-east-1
+aws sqs send-message --queue-url <sqsqueueurlvalue> --endpoint-url https://sqs.<region>.amazonaws.com --message-body "{datafilelocation:s3://<restrictedbucket>/test.txt}" --region <region>
 ```
 
 **Expected behavior** 
 
-A message will be sent into the SQS Queue 
+The aws sqs send-message command will not be successful as the  VPC Interface Endpoint security group restricts access to the Interface Endpoint.   
 
 ![verifyfigure5](./images/us-east-1/verifyfigure5.png) 
 
 
-**Why does this work ?**
+**Why does this NOT work ?**
 
 
 You will observe that when executing the nslookup command, the public DNS name for the SQS service returns IP addresses that are from the private IP CIDR within your VPC. 
