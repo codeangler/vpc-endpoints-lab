@@ -11,12 +11,9 @@ You are on Section 4: Verify Interface
 
 ## Verify the Interface Endpoint Configuration 
 
-**Important Note:**  In the Section Build Interface Endpoint.  In 'Build - Interface Endpoint' Part Two Step 4 you had the optional task of restricting the inbound rules from 10.0.0.0/8 to the SQS interface endpoint.  
-If you restricted inbound access on this security group, do not complete tests to verify Cloud9 to SQSQueue connectivity - the security group changes that you put in place will restrict network connectivity from the Cloud9 instance to the SQS Interface endpoint. 
-
 **Cloud9 to SQSQueue**
 
-Verify that Cloud9 **CANNOT** successfully write into the SQS Queue via the VPC Interface Endpoint due to the Interface Endpoint Policy. 
+Verify that Cloud9 **CANNOT** successfully write into the SQS Queue via the VPC Interface Endpoint due to the Security Group restrictions configured in [Section 2: Build-Interface Endpoint, Part 2](https://github.com/harrisn6/vpc-endpoints-lab/blob/master/build-interface.md#part-2-interface-endpoint---security-groups). 
 
 1. Refer to the collected output values from your CloudFormation stack.  Note the value of the "SQSQueueURL" and "RestrictedS3Bucket" output.  Also note the region where your lab is running.  You will substitute these values into the commands below. 
 
