@@ -63,39 +63,24 @@ ssh ec2-user@salesapp -i vpce.pem
 
 ```
 
+2. Execute the commands provided below AFTER (a) replacing <sqsqueueurlvalue> with the value of the output SQSQueueURL from your Cloudformation stack collected in step 1 (b) replacing <restrictedbucket> with the value of the output RestrictedS3Bucket value from your Cloudformation stack collected in step 1 and (c) replacing <region> with the value of the region wherer you are executing the lab.  Make note of the results.
 
-3. Refer to the collected output values from your CloudFormation stack.  Note the value of the “SQSQueueURL” output.  This is your SQS Queue URL (Queue URL format will be https://sqs.us-east-1.amazonaws.com/exampleaccountid/vpc-endpoints-lab-us-east-1-sqs-queue)
-4. While connected to the Sales App EC2 instance, issue the following command to send a message to SQS.  Replace the queue URL placeholder <value> with the corresponding SQSQueueURL key value from your CloudFormation Outputs:
- 
+
 ``` json
-aws sqs send-message --queue-url <value> --message-body "first message" --region us-east-1
+nslookup sqs.<region>.amazonaws.com
+aws sts get-caller-identity
+aws sqs send-message --queue-url <sqsqueueurlvalue> --endpoint-url https://sqs.<region>.amazonaws.com --message-body "{datafilelocation:s3://<restrictedbucket>/test.txt}" --region <region>
 ```
+
 5.  Read the message back to verify it is in the queue.  A ReceiptHandle value is output.  Copy this value in to your buffer.  
   
 ``` json
-aws sqs receive-message --queue-url <value> --region us-east-1
+aws sqs receive-message --queue-url <sqsqueueurlvalue> --endpoint-url https://sqs.<region>.amazonaws.com --region <region>
 ```
 
 Output from steps 4 and 5 should look like the following:
 
-``` json
-aws sqs send-message --queue-url https://sqs.us-east-1.amazonaws.com/503395950200/vpc-endpoints-lab-us-east-1-sqs-queue --message-body "first message" --region us-east-1
-{
-    "MD5OfMessageBody": "bb3ac257604746ed8f010cf78e39e607", 
-    "MessageId": "45061cdf-afcc-47c8-829d-6d7298c00b82"
-}
-ec2-user@ip-10-0-1-22 $ aws sqs receive-message --queue-url https://sqs.us-east-1.amazonaws.com/503395950200/vpc-endpoints-lab-us-east-1-sqs-queue --region us-east-1
-{
-    "Messages": [
-        {
-            "Body": "first message", 
-            "ReceiptHandle": "AQEBa4EybzSF7F8O3Udk3wuep+SsVI3fzQ5ThzQbf4WWa+eC38xz5ngIJQ2jnv1kVTeLJ/5Gd2ojJy/lGAvM3JqytXPbExQdFPbSENiVKfjsG2wTLPrRBQOQsbT73+DehZYz/rtVPFo2x22jAdNUL1uuLS93bkrM59/ZCKiZoXEDPNjh2E8LKwigUwcCs3OZkHL18lL01JzjEWLxdGNptTbD/GN5UgfFfV7AFVqBgPPYoLfAEbGIuyPksrWAW3L92GqflEn7AsociFtLYRgw6fdFLEY59qNMthgD2Fg+xnR4mlOWHjYDBojXXaTwNTcq7aSJngFMAbu5LC9L0GZ+HYxyhK1ItESzRUKWOzNKklOjZ58P/21OIgmdcrxnK4UZ5BE0cdp70LfpWgooD0AEflyR2WXAxJ/HDqra6wvLw0juM54=", 
-            "MD5OfBody": "bb3ac257604746ed8f010cf78e39e607", 
-            "MessageId": "45061cdf-afcc-47c8-829d-6d7298c00b82"
-        }
-    ]
-}
-``` 
+!!!!screenshot here!!!!!!
 
 6.  Attempt to delete the message in the queue using the ReceiptHandle from the receive-message command.  The delete command will fail validating the SQS queue policy enables writing messages into the queue but restricts the role used by the Sales App from deleting messages.
 
