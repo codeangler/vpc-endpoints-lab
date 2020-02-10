@@ -33,11 +33,11 @@ The aws sqs send-message command will not be successful as the VPC Interface End
 
 ![verifyfigure5](./images/us-east-1/verifyfigure5.png) 
 
-Note:  Command displayed above over multiple lines for clarity only.  Control-C used to terminate command execution rather than wiating for timeout.
+Note:  Command displayed above over multiple lines for clarity only.  Control-C used to terminate command execution rather than waiting for timeout.
 
 **Why does this NOT work ?**
 
-You will observe that when executing the nslookup command, the public DNS name for the SQS service returns IP addresses that are from the private IP CIDR within your VPC. 
+When executing the nslookup command, you will observe that the public DNS name for the SQS service returns IP addresses that are from the private IP CIDR within your VPC. 
 
 When you create an interface endpoint, AWS generates endpoint-specific DNS hostnames that you can use to communicate with the service. For AWS services and AWS Marketplace Partner services, private DNS (enabled by default) associates a private hosted zone with your VPC. The hosted zone contains a record set for the default DNS name for the service (for example, ec2.us-east-1.amazonaws.com) that resolves to the private IP addresses of the endpoint network interfaces in your VPC. This enables you to make requests to the service using its default DNS hostname instead of the endpoint-specific DNS hostnames. For example, if your existing applications make requests to an AWS service, they can continue to make requests through the interface endpoint without requiring any configuration changes. For more details see: https://docs.amazonaws.cn/en_us/vpc/latest/userguide/vpce-interface.html#vpce-private-dns
 
