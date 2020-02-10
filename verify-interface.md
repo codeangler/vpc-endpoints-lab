@@ -33,6 +33,8 @@ The aws sqs send-message command will not be successful as the VPC Interface End
 
 ![verifyfigure5](./images/us-east-1/verifyfigure5.png) 
 
+Note:  Command displayed above over multiple lines for clarity only.  Control-C used to terminate command execution rather than wiating for timeout.
+
 **Why does this NOT work ?**
 
 You will observe that when executing the nslookup command, the public DNS name for the SQS service returns IP addresses that are from the private IP CIDR within your VPC. 
