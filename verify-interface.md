@@ -29,7 +29,7 @@ aws sqs send-message --queue-url <sqsqueueurlvalue> --endpoint-url https://sqs.<
 
 **Expected behavior** 
 
-The aws sqs send-message command will not be successful as the VPC Interface Endpoint security group restricts access to the Interface Endpoint.  Network connectivity to SQS is blocked.   
+The aws sqs send-message command **CANNOT** be successful as the VPC Interface Endpoint security group restricts access to the Interface Endpoint.  Network connectivity to SQS is blocked.   
 
 ![verifyfigure5](./images/us-east-1/verifyfigure5.png) 
 
