@@ -8,7 +8,7 @@ You are on Section 4: Verify Interface
 
 ![verify-interface-nav](./images/us-east-1/verify-interface-nav.png) 
 
-## Verify the Interface Endpoint Configuration 
+## Verify - Interface Endpoint  
 
 **Cloud9 to SQSQueue**
 
