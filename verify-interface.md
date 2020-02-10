@@ -52,7 +52,7 @@ The aws sqs send-message cli command is execute using an explicit flag (--endpoi
 
 **SalesApp EC2 to SQSQueue**
 
-Verify that SalesApp EC2 **CAN** successfully write into the **SQSQueue** bucket via the Interface VPC Endpoint
+Verify that SalesApp EC2 **CAN** successfully write into the sqsqueue via the Interface VPC Endpoint
 
 1. Refer to the collected output values from your CloudFormation stack.  Note the value of the "SQSQueueURL" and "RestrictedS3Bucket" output.  Also note the AWS Region where your lab is running (e.g. us-east-1).  You will substitute these values into the commands below. 
 
@@ -72,17 +72,23 @@ aws sts get-caller-identity
 aws sqs send-message --queue-url <sqsqueueurlvalue> --endpoint-url https://sqs.<region>.amazonaws.com --message-body "{datafilelocation:s3://<restrictedbucket>/test.txt}" --region <region>
 ```
 
+**Expected behavior** 
+
+The SalesApp EC2 **CAN** successfully write into the sqsqueue via the Interface VPC Endpoint
+
 Output from step 2 should look like the following:
 
 ![verifyfigure6](./images/us-east-1/verifyfigure6.png) 
-
-Verify that SalesApp EC2 **CAN** successfully write into the **SQSQueue** bucket via the Interface VPC Endpoint
 
 3.  Read the message back to verify it is in the queue.  A ReceiptHandle value is output.  Copy this value in to your buffer.  Replace the <region> placeholder in the sample command below with the value of the region where you are executing the lab. 
   
 ``` json
 aws sqs receive-message --queue-url <sqsqueueurlvalue> --endpoint-url https://sqs.<region>.amazonaws.com --region <region>
 ```
+
+**Expected behavior** 
+
+The SalesApp EC2 **CAN** successfully read from the Interface VPC Endpoint
 
 Output from step 3 should look like the following:
 
@@ -96,10 +102,13 @@ Recall that SalesApp EC2 has IAM privileges including "sqs:ListQueues".  We will
 aws sqs list-queues --region <region> --endpoint-url https://sqs.<region>.amazonaws.com
 ```
 
+**Expected behavior** 
+
+The SalesApp EC2 **CANNOT** successfully list queues via the Interface VPC Endpoint
+
 Output from step 4 should look like the following:
 
 ![verifyfigure8](./images/us-east-1/verifyfigure8.png) 
-
 
 **Important!! type exit in order to end your SSH session on the SalesApp EC2 instance and return to the bash/shell prompt on the Cloud9 instance.**
 
@@ -125,11 +134,22 @@ aws sqs receive-message --queue-url <sqsqueueurlvalue> --endpoint-url https://sq
 aws sqs delete-message --queue-url <sqsqueueurlvalue> --endpoint-url https://sqs.<region>.amazonaws.com --region <region> --receipt-handle <receipthandle>
 ```
 
-The reports engine EC2 instance can read and delete messages from SQS via the interface endpoint.
+**Expected Behavior:** 
+
+The reports engine EC2 instance can read messages from SQS via the interface endpoint.
+
+![verifyfigure8](./images/us-east-1/verifyfigure9.png) 
+
+The reports engine EC2 instance can delete messages from SQS via the interface endpoint.
+
+![verifyfigure8](./images/us-east-1/verifyfigure10.png) 
+
+Why ??????????????????????????????????
 
 **Reading Data from S3 via the Gateway Endpoint**
 
-8.  Refer to the collected output values from your CloudFormation stack.  Note the value of the “RestrictedS3Bucket”.  In your Cloud9 terminal window, while connected to the Reports Engine EC2 instance execute the following commands  
+
+3.  Refer to the collected output values from your CloudFormation stack.  Note the value of the “RestrictedS3Bucket”.  In your Cloud9 terminal window, while connected to the Reports Engine EC2 instance execute the following commands  
 
 ``` json
 aws s3 cp s3://<RestrictedS3Bucket>/test.txt  .
