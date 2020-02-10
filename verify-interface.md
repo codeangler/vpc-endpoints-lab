@@ -80,7 +80,7 @@ aws sqs receive-message --queue-url <sqsqueueurlvalue> --endpoint-url https://sq
 
 Output from steps 4 and 5 should look like the following:
 
-!!!!screenshot here!!!!!!
+![verifyfigure6](./images/us-east-1/verifyfigure6.png) 
 
 6.  Attempt to delete the message in the queue using the ReceiptHandle from the receive-message command.  The delete command will fail validating the SQS queue policy enables writing messages into the queue but restricts the role used by the Sales App from deleting messages.
 
