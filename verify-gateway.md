@@ -141,7 +141,7 @@ Verify that SalesApp EC2 **CAN** successfully write into the **Restricted** buck
 ssh ec2-user@salesapp -i vpce.pem
 ```
 
-4.  Execute the commands provided below AFTER replacing the values of <RestrictedS3Bucket> with the output value collected in step 1.  Make note of the results.
+2.  Execute the commands provided below AFTER replacing the values of <RestrictedS3Bucket> with the output value collected in step 1.  Make note of the results.
 
 
 ``` json
