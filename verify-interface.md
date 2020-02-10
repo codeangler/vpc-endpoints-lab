@@ -101,7 +101,7 @@ Output from step 4 should look like the following:
 ![verifyfigure8](./images/us-east-1/verifyfigure8.png) 
 
 
-**Important!! type exit in order to end your SSh session on the SalesApp EC2 instance and return to the bash/shell prompt on the Cloud9 instance. **
+**Important!! type exit in order to end your SSh session on the SalesApp EC2 instance and return to the bash/shell prompt on the Cloud9 instance.**
 
 **ReportsEngine EC2 to SQSQueue**
 
