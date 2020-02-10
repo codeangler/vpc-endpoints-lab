@@ -18,7 +18,7 @@ Verify that Cloud9 **CANNOT** successfully write into the SQS Queue via the VPC 
 
 **Ensure that your session is connected to the Cloud9 instance.  You will execute step 2 from the Cloud9 EC2 instance bash prompt:**
   
-2.  Execute the commands provided below AFTER (a) replacing <sqsqueueurlvalue> with the value of the output SQSQueueURL from your Cloudformation stack collected in step 1 (b) replacing <restrictedbucket> with the value of the output restrictedbucket from your Cloudformation stack collected in step 1 and (c) replacing <region> with the value of the region wherer you are executing the lab.  Make note of the results.
+2.  Execute the commands provided below AFTER (a) replacing <sqsqueueurlvalue> with the value of the output SQSQueueURL from your Cloudformation stack collected in step 1 (b) replacing <restrictedbucket> with the value of the output RestrictedS3Bucket value from your Cloudformation stack collected in step 1 and (c) replacing <region> with the value of the region wherer you are executing the lab.  Make note of the results.
 
 
 ``` json
@@ -49,9 +49,20 @@ The aws sqs send-message cli command is execute using an explicit flag (--endpoi
 
 ![figure29](./images/us-east-1/figure29.png) 
 
-!!Here!!!
 
-**Ensure that your session is connected to the the Sales App EC2 instance.** 
+**SalesApp EC2 to SQSQueue**
+
+Verify that SalesApp EC2 **CAN** successfully write into the **SQSQueue** bucket via the Interface VPC Endpoint
+
+1. Refer to the collected output values from your CloudFormation stack.  Note the value of the "SQSQueueURL" and "RestrictedS3Bucket" output.  Also note the AWS Region where your lab is running (e.g. us-east-1).  You will substitute these values into the commands below. 
+
+**Ensure that your session is connected to the  Sales App EC2 instance.  You will execute step 2 from the Sales App EC2 instance bash prompt.  Execute the following to connect to the SalesApp EC2 instance as needed:**
+
+``` json
+ssh ec2-user@salesapp -i vpce.pem
+
+```
+
 
 3. Refer to the collected output values from your CloudFormation stack.  Note the value of the “SQSQueueURL” output.  This is your SQS Queue URL (Queue URL format will be https://sqs.us-east-1.amazonaws.com/exampleaccountid/vpc-endpoints-lab-us-east-1-sqs-queue)
 4. While connected to the Sales App EC2 instance, issue the following command to send a message to SQS.  Replace the queue URL placeholder <value> with the corresponding SQSQueueURL key value from your CloudFormation Outputs:
