@@ -72,15 +72,18 @@ aws sts get-caller-identity
 aws sqs send-message --queue-url <sqsqueueurlvalue> --endpoint-url https://sqs.<region>.amazonaws.com --message-body "{datafilelocation:s3://<restrictedbucket>/test.txt}" --region <region>
 ```
 
-5.  Read the message back to verify it is in the queue.  A ReceiptHandle value is output.  Copy this value in to your buffer.  
+Output from step 2 should look like the following:
+
+![verifyfigure6](./images/us-east-1/verifyfigure6.png) 
+
+3.  Read the message back to verify it is in the queue.  A ReceiptHandle value is output.  Copy this value in to your buffer.  
   
 ``` json
 aws sqs receive-message --queue-url <sqsqueueurlvalue> --endpoint-url https://sqs.<region>.amazonaws.com --region <region>
 ```
 
-Output from steps 4 and 5 should look like the following:
+!!!! HERE !!!!
 
-![verifyfigure6](./images/us-east-1/verifyfigure6.png) 
 
 6.  Attempt to delete the message in the queue using the ReceiptHandle from the receive-message command.  The delete command will fail validating the SQS queue policy enables writing messages into the queue but restricts the role used by the Sales App from deleting messages.
 
