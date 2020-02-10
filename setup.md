@@ -23,12 +23,12 @@ Your CEO has mandated that sales data in transit should not be on the Internet. 
 
 2.	Once data is placed on S3 and all backend system updates are completed by the sales application, it will place a message onto an Amazon Simple Queue Service (SQS) queue, triggering downstream report generation and SQS message deletion by the reports engine.  
 
-![figure1](./images/figure1.png) 
+![figure1](./images/us-east-1/figure1.png) 
 
 3.	The Reports Engine will read messages placed onto an Amazon SQS queue and generate a report
 4.	The Reports Engine will then write the output to S3 and delete the processed SQS message  
 
-![figure2](./images/figure2.png)  
+![figure2](./images/us-east-1/figure2.png)  
 
 ## Connect to Cloud9 IDE and setup SSH
 
@@ -42,16 +42,16 @@ https://console.aws.amazon.com/cloud9/home?region=us-east-1
 
 2.	Click on the “Open IDE” button on the Cloud9 instance.  The IDE loads in your browser.  Note; in event engine your Cloud9 environment may have a different name than is shown in the screenshots below.
 
-![figure3](./images/figure3.png) 
+![figure3](./images/us-east-1/figure3.png) 
 
 You have completed the following connection:
 
-![figure4](./images/figure4.png)  
+![figure4](./images/us-east-1/figure4.png)  
 
 4.	Use the Window drop down menu in the Cloud9 IDE menu bar to open a new terminal.  A terminal window/tab will open in the Cloud9 pane. **Repeat this process so that you have 3 terminal tabs available in your Cloud9 IDE.**
 5.  Use the first terminal tab to retain a connection to the Cloud9 instance.  We will use the other two tabs to make SSH connections to the Sales App EC2 instance and the Reports Engine EC2 instance.  
 
-![figure5](./images/figure5.png) 
+![figure5](./images/us-east-1/figure5.png) 
 
 6.   Let's setup SSH configuration on the Cloud9 instance using the first terminal tab.  Run these commands from the Cloud9 instance: 
 
