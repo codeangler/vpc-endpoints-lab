@@ -61,7 +61,7 @@ aws s3 cp s3://ee-assets-prod-us-east-1/modules/7dbaeba0ef084e64a3566ebed6cb8bd2
 
 Output from the shell commands should look as follows:
 
-![prepssh](./images/prepssh.png) 
+![figure6](./images/us-east-1/figure6.png) 
 
 6.  As directed in the output, run the following ssh command to connect to the Sales App EC2 instance running in a private subnet in the VPC
 
@@ -71,7 +71,7 @@ ssh ec2-user@salesapp -i lab.pem
 
 Output from making the SSH connection to the Sales App should look as follows:
 
-![prepssh3](./images/prepssh3.png) 
+![figure7](./images/us-east-1/figure7.png) 
 
 7.  Open a second terminal in Cloud 9 (Repeat step 4 of the 'Connect to Cloud9 IDE and setup SSH' instructions).  In the second terminal tab establish a connection to the Reports Engine EC2 instance running in a private subnet in the VPC by running the following command: 
  
@@ -81,7 +81,7 @@ ssh ec2-user@reportsengine -i lab.pem
 
 Output from making the SSH connection to the Reports Engine should look as follows: 
 
-![prepssh5](./images/prepssh5.png) 
+![figure8](./images/us-east-1/figure8.png) 
 
 Leave the tab with the SSH connection to the Reports Engine EC2 instance.  We will return to this tab to perform testing later.
 
@@ -93,7 +93,8 @@ https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/s
 
 2.	During this lab you will use outputs from the CloudFormation stacks used to setup the lab environment. Event engine will have created two Cloudformation stacks. One of the stacks created the Cloud9 instance - it will have aws-cloud9 in the stack name.  Additional lab components (VPC, SQS Queue, etc) were created by the second CloudFormation stack.  You will refer back to output values from this stack during this lab.  Note - the CloudFormation stack names may differ in your event engine account than those shown the screenshots in the lab documentation.
 
-![img13](./images/vpce-img13.png) 
+
+![figure9](./images/us-east-1/figure9.png) 
 
 
 **Congratulations !!!**  You can now move on to the [**Build - Gateway Endpoint**](./build-gateway.md) section !
