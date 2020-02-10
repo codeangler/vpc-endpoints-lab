@@ -70,12 +70,10 @@ Update the Interface Endpoint policy in your lab (an template/example is provide
 ``` json
 {
    "Statement": [{
-      "Action": ["sqs:SendMessage"],
+      "Action": ["sqs:SendMessage","sqs:ReceiveMessage","sqs:DeleteMessage"],
       "Effect": "Allow",
       "Resource": "examplequeueARN",
-      "Principal": {
-        "AWS": "exampleaccountid"
-      }
+      "Principal": { "AWS": "exampleaccountid" }
    }]
 }	
 ``` 

@@ -76,36 +76,53 @@ Output from step 2 should look like the following:
 
 ![verifyfigure6](./images/us-east-1/verifyfigure6.png) 
 
-3.  Read the message back to verify it is in the queue.  A ReceiptHandle value is output.  Copy this value in to your buffer.  
+Verify that SalesApp EC2 **CAN** successfully write into the **SQSQueue** bucket via the Interface VPC Endpoint
+
+3.  Read the message back to verify it is in the queue.  A ReceiptHandle value is output.  Copy this value in to your buffer.  Replace the <region> placeholder in the sample command below with the value of the region where you are executing the lab. 
   
 ``` json
 aws sqs receive-message --queue-url <sqsqueueurlvalue> --endpoint-url https://sqs.<region>.amazonaws.com --region <region>
 ```
 
-!!!! HERE !!!!
+Output from step 3 should look like the following:
 
+![verifyfigure7](./images/us-east-1/verifyfigure7.png) 
 
-6.  Attempt to delete the message in the queue using the ReceiptHandle from the receive-message command.  The delete command will fail validating the SQS queue policy enables writing messages into the queue but restricts the role used by the Sales App from deleting messages.
+Recall that SalesApp EC2 has IAM privileges including "sqs:ListQueues".  We will now validate that the Interface Endpoint Policy (which only Allows "sqs:SendMessage","sqs:ReceiveMessage","sqs:DeleteMessage") restricts the ability to perform an "sqs:ListQueues" call.
+
+4.  Attempt to list sqs queues. Replace the <region> placeholder in the sample command below with the value of the region where you are executing the lab.   
 
 ``` json 
-aws sqs delete-message --queue-url <value> --region us-east-1 --receipt-handle <receipthandlevalue>
-exit
+aws sqs list-queues --region <region> --endpoint-url https://sqs.<region>.amazonaws.com
 ```
 
-``` json
-aws sqs delete-message --queue-url https://sqs.us-east-1.amazonaws.com/503395950200/vpc-endpoints-lab-us-east-1-sqs-queue --region us-east-1--receipt-handle "AQEBa4EybzSF7F8O3Udk3wuep+SsVI3fzQ5ThzQbf4WWa+eC38xz5ngIJQ2jnv1kVTeLJ/5Gd2ojJy/lGAvM3JqytXPbExQdFPbSENiVKfjsG2wTLPrRBQOQsbT73+DehZYz/rtVPFo2x22jAdNUL1uuLS93bkrM59/ZCKiZoXEDPNjh2E8LKwigUwcCs3OZkHL18lL01JzjEWLxdGNptTbD/GN5UgfFfV7AFVqBgPPYoLfAEbGIuyPksrWAW3L92GqflEn7AsociFtLYRgw6fdFLEY59qNMthgD2Fg+xnR4mlOWHjYDBojXXaTwNTcq7aSJngFMAbu5LC9L0GZ+HYxyhK1ItESzRUKWOzNKklOjZ58P/21OIgmdcrxnK4UZ5BE0cdp70LfpWgooD0AEflyR2WXAxJ/HDqra6wvLw0juM54="
+Output from step 4 should look like the following:
 
-An error occurred (AccessDenied) when calling the DeleteMessage operation: Access to the resource https://us-east-1.queue.amazonaws.com/ is denied.
-```
+![verifyfigure8](./images/us-east-1/verifyfigure8.png) 
 
-**Reading Data from SQS via the Interface endpoint from the Reports Engine EC2 instance**
 
-7. In your Cloud9 terminal window, while connected to the Cloud9 EC2 instance execute the following commands.  
+**Important!! type exit in order to end your SSh session on the SalesApp EC2 instance and return to the bash/shell prompt on the Cloud9 instance. **
+
+**ReportsEngine EC2 to SQSQueue**
+
+Verify that ReportsEngine EC2 **CAN** successfully read and delete messages from the queue via the Interface VPC Endpoint
+
+1. Refer to the collected output values from your CloudFormation stack.  Note the value of the "SQSQueueURL" output.  Also note the AWS Region where your lab is running (e.g. us-east-1).  You will substitute these values into the commands below. 
+
+**Ensure that your session is connected to the  ReportsEngine EC2 instance.  You will execute step 2 from the ReportsEngine EC2 instance bash prompt.  Execute the following to connect to the ReportsEngine EC2 instance as needed:**
 
 ``` json
 ssh ec2-user@reportsengine -i vpce.pem
-aws sqs receive-message --queue-url <value> --region us-east-1
-aws sqs delete-message --queue-url <value> --region us-east-1 --receipt-handle <receipthandlevalue>
+
+```
+
+2. Execute the commands provided below AFTER (a) replacing <sqsqueueurlvalue> with the value of the output SQSQueueURL from your Cloudformation stack collected in step 1.  Use the  receipt-handle value returned from your first sqs command, replacing <receipthandle> in the second templatesqs command
+
+``` json
+nslookup sqs.<region>.amazonaws.com
+aws sts get-caller-identity
+aws sqs receive-message --queue-url <sqsqueueurlvalue> --endpoint-url https://sqs.<region>.amazonaws.com --region <region> 
+aws sqs delete-message --queue-url <sqsqueueurlvalue> --endpoint-url https://sqs.<region>.amazonaws.com --region <region> --receipt-handle <receipthandle>
 ```
 
 The reports engine EC2 instance can read and delete messages from SQS via the interface endpoint.
