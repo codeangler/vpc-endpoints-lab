@@ -47,10 +47,7 @@ Review the security group configuration in your lab:
 |-------------------------------------------------------|----|----|----------|------------------------------------------|
 | All TCP | TCP | 0-65535 | Custom  sg-XXXX | Inbound from SecurityGroupForSalesApp |
 | All TCP | TCP | 0-65535 | Custom  sg-YYYY | Inbound from SecurityGroupForReportsEngine |
-
-configure Type:  TCP
-7.	one for each security group referenced in by the SecurityGroupForReportsEngine, and SecurityGroupForSalesApp values output by your Cloudformation stack (format sg-XXXXXX).  
-
+ 
 ![secgrps2](./images/us-east-1/secgrps2.png)  
 
 Save your changes to further constrain network access to the interface endpoint and the SQS queue it provides access to.  
