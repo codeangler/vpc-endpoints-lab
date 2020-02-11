@@ -41,7 +41,7 @@ Review the security group configuration in your lab:
 	
 ![figure21](./images/us-east-1/figure21.png)
 
-4.	Further restrict the inbound rules.  Update the existing inbound security group rule by clicking the Edit button in the lower pane.  Remove the existing rule (10.0.0.0/8).  Create two new inbound rules.  For each new rule you create:
+4.	Further restrict the inbound rules.  Update the existing inbound security group rule by clicking the Edit button in the lower pane.  Remove the existing rule (10.0.0.0/8).  Create two new inbound rules with the following attributes(updating the sg- values with the outputs from your Cloudformation stack):
 	
 | Type |  Protocol  |  Port Range  |    Source      |      Description                                    |
 |-------------------------------------------------------|----|----|----------|------------------------------------------|
