@@ -41,7 +41,7 @@ Review the security group configuration in your lab:
 	
 ![figure21](./images/us-east-1/figure21.png)
 
-4.	Further restrict the inbound rules.  Update the existing inbound security group rule by clicking the Edit button in the lower pane.  Remove the existing rule (10.0.0.0/8).  Create two new inbound rules with the following attributes(updating the sg- values with the outputs from your Cloudformation stack):
+4.	Further restrict the inbound rules.  Update the existing inbound security group rule by clicking the Edit button in the lower pane.  Remove the existing rule (10.0.0.0/8).  Create two new inbound rules with the following attributes (updating the sg- values with the outputs from your Cloudformation stack):
 	
 | Type |  Protocol  |  Port Range  |    Source      |      Description                                    |
 |-------------------------------------------------------|----|----|----------|------------------------------------------|
@@ -54,7 +54,7 @@ Save your changes to further constrain network access to the interface endpoint 
 
 ![secgrps3](./images/us-east-1/secgrps3.png)  
 
-For additional information regarding security group rule updates refer to the AWS documentation:  Ref: https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html#AddRemoveRules
+For additional information regarding security group rule updates refer to the AWS documentation: https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html#AddRemoveRules
   
 ## Part 3. Interface Endpoint - Interface Endpoint Resource Policy 
 
