@@ -87,7 +87,7 @@ Leave the tab with the SSH connection to the Reports Engine EC2 instance.  We wi
 
 ## Collect outputs from completed CloudFormation stack 
 
-1.	Access the CloudFormation stacks in your event engine account: 
+1.	Access the CloudFormation stacks in your AWS account: 
 
 https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks
 
