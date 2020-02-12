@@ -42,7 +42,7 @@ The upload to the unrestricted bucket should succeed.
 
 **B.**  The request is routed to the public IP address of the S3 service.  
 
-**C.**  When the request reaches S3, IAM verifies that the request is authenticated and authorized before completing the request. In this example, the identity signing the request (the active identity signing the request can be seen in output from the aws sts get-caller-identity aws cli command)has permissions to write this object into S3.  IAM permissions assigned to the identity **ALLOW** data to be written to the unrestricted bucket. The unrestricted bucket does not have a policy.
+**C.**  The request reaches Amazon S3.  The request is authenticated and the API call is authorized. The unrestricted bucket does not have a resource (bucket) policy. IAM permissions assigned to the identity **ALLOW** data to be written to the unrestricted bucket. 
 
 Note:  If you are using the event engine platform for this lab, the effective identity will be a role named "TeamRole".  This identity has been configured with full access to S3.  If you are running this lab outside of the event engine platform, it is assumed that the identity being used to access Cloud9 has administrative privileges to S3.
 
