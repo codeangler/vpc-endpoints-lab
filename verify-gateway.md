@@ -13,7 +13,7 @@ You are on Section 3: Verify Gateway
 
 **Cloud9 to UnRestricted Bucket**
 
-Verify that Cloud9 can successfully write into the **unrestricted** bucket (bucket with no bucket policy) via the Internet
+Verify that Cloud9 can successfully write into the unrestricted bucket (bucket with no bucket policy) via the Internet
 
 1.  Refer to the collected output values from your CloudFormation stack.  Note the value of the "UnrestrictedS3Bucket" output.  You will substitute this value into the commands below.
 
@@ -51,11 +51,11 @@ Note:  If you are using the event engine platform for this lab, the effective id
 
 **Cloud9 to Restricted Bucket**
 
-Verify that Cloud9 **CANNOT** successfully write into the **restricted** bucket (bucket with a bucket policy) via the Internet
+Verify that attempts to write into the restricted bucket (bucket with a bucket policy) from your Cloud9 instance via the Internet will be **DENIED**
 
 We will now verify the S3 Bucket Policy configuration to validate it meets the stated requirements.  
 
-The S3 bucket policy you added to the **restricted** bucket enforces the requirement that writes into it occur via the Gateway VPC Endpoint you configured.
+The S3 bucket policy you added to the restricted bucket (bucket with a bucket policy) enforces the requirement that writes into it occur via the Gateway VPC Endpoint you configured.
 
 1.  Refer to the collected output values from your CloudFormation stack.  Note the value of the "RestrictedS3Bucket" output.  You will substitute this value into the commands below.
 
@@ -72,7 +72,7 @@ aws s3 cp test.txt s3://<RestrictedS3Bucket>/test.txt
 
 **Expected behavior** 
 
-The upload to the restricted bucket will be DENIED by the bucket policy
+The upload to the restricted bucket will be **DENIED** by the bucket policy
 
 ![verifyfigure2](./images/us-east-1/verifyfigure2.png) 
 
@@ -88,12 +88,12 @@ Note:  If you are using the event engine platform for this lab, the effective id
 
 ![figure26](./images/us-east-1/figure26.png) 
 
-The S3 bucket policy you added to the **restricted** bucket enforces the requirement that writes into Amazon S3 occur via our VPC Endpoint.
+The S3 bucket policy you added to the restricted bucket (bucket with a bucket policy) enforces the requirement that writes into Amazon S3 occur via our VPC Endpoint.
 
 
 **SalesApp EC2 to UnRestricted Bucket**
 
-Verify that SalesApp EC2 **CANNOT** successfully write into the **unrestricted** bucket (bucket with no bucket policy) via the Gateway VPC Endpoint
+Verify that attempts to write into the unrestricted bucket (bucket with no bucket policy) from the SalesApp EC2 will via the Gateway VPC Endpoint will be **DENIED**
 
 1.  Refer to the collected output values from your CloudFormation stack.  Note the value of the "UnrestrictedS3Bucket" output.  You will substitute this value into the commands below.
 
@@ -115,7 +115,7 @@ aws s3 cp test.txt s3://<UnrestrictedS3Bucket>/test.txt
 
 **Expected behavior When Executed from Sales App EC2 Instance is:** 
 
-The upload to the unrestricted bucket will fail.  The Gateway VPC Endpoint policy will only ALLOW objects to be put into the restricted bucket.
+Attempts to upload to the unrestricted bucket will be **DENIED**.  The Gateway VPC Endpoint policy will only ALLOW objects to be put into the restricted bucket.
 
 ![verifyfigure3](./images/us-east-1/verifyfigure3.png) 
 
@@ -131,7 +131,7 @@ The upload to the unrestricted bucket will fail.  The Gateway VPC Endpoint polic
 
 **SalesApp EC2 to Restricted Bucket**
 
-Verify that SalesApp EC2 **CAN** successfully write into the **Restricted** bucket (bucket with no bucket policy) via the Gateway VPC Endpoint
+Verify that attempts to write into the restricted bucket (bucket with a bucket policy) from the SalesApp EC2 instance via the Gateway VPC Endpoint will be **ALLOWED**
 
 1.  Refer to the collected output values from your CloudFormation stack.  Note the value of the "RestrictedS3Bucket" output.  You will substitute this value into the commands below.
 
@@ -153,7 +153,7 @@ aws s3 cp test.txt s3://<restrictedS3Bucket>/test.txt
 
 **Expected behavior When Executed from Sales App EC2 Instance is:** 
 
-The upload to the restricted bucket will succeed.  The Gateway VPC Endpoint policy will ALLOW objects to be put into the restricted bucket.
+The upload to the restricted bucket will succeed.  The Gateway VPC Endpoint policy will **ALLOW** objects to be put into the restricted bucket (bucket with a bucket policy).
 
 ![verifyfigure4](./images/us-east-1/verifyfigure4.png) 
 
