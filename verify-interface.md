@@ -81,9 +81,9 @@ Output from step 2 should look like the following:
 
 **Why does this work ?**
 
-**A.**  The AWS CLI signs your API request using credentials associated with the identity returned by the aws sts get-caller-identity - the salesapp role (note: this identity has permissions to execute "sqs:SendMessage" and "sqs:ReceiveMessage" API calls via IAM).  The call is initiated from the SalesApp EC2instance.  There is an inbound rule on the security group used by the Interface Endpoint that allows all TCP inbound access from the security group used by the SalesApp EC2 instance. Network connectivity via to the Interface Endpoint is successful.   
+**A.**  The AWS CLI signs your API request using credentials associated with the identity returned by the aws sts get-caller-identity - the salesapp role (note: this identity has permissions to execute "sqs:SendMessage" and "sqs:ReceiveMessage" API calls via IAM).  The call is initiated from the SalesApp EC2instance.  There is an inbound rule on the security group used by the Interface Endpoint that allows all TCP inbound access from the security group used by the SalesApp EC2 instance. Network connectivity to the Interface Endpoint is successful.   
 
-**B.**  The Interface Endpoint policy allows "sqs:SendMessage", "sqs:ReceiveMessage" and "sqs:DeleteMessage" API calls to be made by any principal with the AWS account to the vpce-us-east-1-sqs-queue.  The endpoint can be used to reach the endpoint.
+**B.**  The Interface Endpoint policy allows "sqs:SendMessage", "sqs:ReceiveMessage" and "sqs:DeleteMessage" API calls to be made by any principal within the AWS account to the vpce-us-east-1-sqs-queue.  The "sqs:SendMessage" API call to the vpce-us-east-1-sqs-queue is permitted by the endpoint policy.
 
 **C.**  The request reaches SQS and is authenticated and authorized.  The SQS resource policy allows "sqs:SendMessage", "sqs:ReceiveMessage" and "sqs:DeleteMessage" API calls under the condition that they originaite from the source VPC Endpoint.  The condition is met and the request is fulfilled.  
 
