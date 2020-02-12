@@ -59,9 +59,11 @@ Verify that SalesApp EC2 **CAN** successfully write into the sqsqueue via the In
 ssh ec2-user@salesapp -i vpce.pem
 
 ```
-
-2. Execute the commands provided below AFTER (a) replacing <sqsqueueurlvalue> with the value of the output SQSQueueURL from your Cloudformation stack collected in step 1 (b) replacing <restrictedbucket> with the value of the output RestrictedS3Bucket value from your Cloudformation stack collected in step 1 and (c) replacing <region> with the value of the region wherer you are executing the lab.  Make note of the results.
-
+  
+2.  Execute the commands provided below AFTER completing the following.  Make note of the results:
+* replacing <sqsqueueurlvalue> with the value of the Cloudformation output **SQSQueueURL** collected in step 1 
+* replacing <restrictedbucket> with the value of the Cloudformation output **RestrictedS3Bucket** collected in step 1 
+* replacing <region> with the value of the **AWS region** where you are executing the lab
 
 ``` json
 nslookup sqs.<region>.amazonaws.com
