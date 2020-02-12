@@ -162,4 +162,5 @@ The upload to the restricted bucket will succeed.  The Gateway VPC Endpoint poli
 
 ---
 
+
 **Congratulations !!!**  You can now move on to the [**Verify - Interface Endpoint**](./verify-interface.md) section !
