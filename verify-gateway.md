@@ -126,9 +126,6 @@ Attempts to upload to the unrestricted bucket will be **DENIED**.  The Gateway V
 ![figure27](./images/us-east-1/figure27.png) 
 
 
-* The Sales App EC2 instance sits in a private subnet in your VPC and has a path in its route table to the gateway endpoint.  Calls to S3 are made via the gateway endpoint and access to the bucket occurs over a private network segment. S3:PutObject requests to the unrestricted bucket fail as the gateway endpoint policy will **DENY** access to the unrestricted bucket  
-
-
 **SalesApp EC2 to Restricted Bucket**
 
 Verify that attempts to write into the restricted bucket (bucket with a bucket policy) from the SalesApp EC2 instance via the Gateway VPC Endpoint will be **ALLOWED**
