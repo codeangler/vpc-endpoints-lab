@@ -12,7 +12,7 @@ You are on Section 4: Verify Interface
 
 **Cloud9 to SQSQueue**
 
-Verify that Cloud9 **CANNOT** successfully write into the SQS Queue via the VPC Interface Endpoint due to the Security Group restrictions configured in [Section 2: Build-Interface Endpoint, Part 2 Interface Endpoint - Security Groups ](https://github.com/harrisn6/vpc-endpoints-lab/blob/master/build-interface.md#part-2-interface-endpoint---security-groups). 
+Verify that Cloud9 cannot write into the SQS Queue via the VPC Interface Endpoint.  This is due to Security Group restrictions configured in [Section 2: Build-Interface Endpoint, Part 2 Interface Endpoint - Security Groups ](https://github.com/harrisn6/vpc-endpoints-lab/blob/master/build-interface.md#part-2-interface-endpoint---security-groups). 
 
 1. Refer to the collected output values from your CloudFormation stack.  Note the value of the "SQSQueueURL" and "RestrictedS3Bucket" output.  Also note the AWS Region where your lab is running (e.g. us-east-1).  You will substitute these values into the commands below. 
 
@@ -31,7 +31,7 @@ aws sqs send-message --queue-url <sqsqueueurlvalue> --endpoint-url https://sqs.<
 
 **Expected behavior** 
 
-The aws sqs send-message command **CANNOT** be successful as the VPC Interface Endpoint security group restricts access to the Interface Endpoint.  Network connectivity to SQS is blocked.   
+The aws sqs send-message command cannot use the VPC Interface Endpoint.  Network connectivity to SQS is blocked by security groups that restrict access to the security groups associated to the SalesApp and ReportsEngine.   
 
 ![verifyfigure5](./images/us-east-1/verifyfigure5.png) 
 
@@ -39,9 +39,9 @@ Note:  Command displayed above over multiple lines for clarity only.  Control-C 
 
 **Why does this NOT work ?**
 
-When executing the nslookup command, you will observe that the public DNS name for the SQS service returns IP addresses that are from the private IP CIDR within your VPC. Access the following link to observe each ENI (1 per AZ) used by your Interface Endpoint: (https://us-east-1.console.aws.amazon.com/ec2/home?region=us-east-1#NIC:search=InterfaceSecurity;sort=networkInterfaceId)
+When executing the nslookup command from within the VPC, you will observe that the public DNS name for the SQS service returns IP addresses that are from the private IP CIDR inside your VPC. Access the following link to observe each ENI (1 per AZ) used by your Interface Endpoint: (https://us-east-1.console.aws.amazon.com/ec2/home?region=us-east-1#NIC:search=InterfaceSecurity;sort=networkInterfaceId)
 
-The aws sts get-caller-identity command shows the identity being used to sign API requests submitted using the aws cli.  If you are using the event engine platform, this will be a role named "TeamRole".  This role has administrative permissions and can execute all SQS API calls.  If you are executing this lab in your own AWS account.  It is assumed that the identity you are using to access the account has administrative privileges and full access to SQS. 
+The aws sts get-caller-identity command shows the identity being used to sign API requests submitted using the aws cli.  If you are using the event engine platform, this will be a role named "TeamRole".  The TeamRole identity has been assigned administrative permissions and can execute all SQS API calls.  If you are executing this lab in your own AWS account.  It is assumed that the identity you are using to access the account has administrative privileges and full access to SQS. 
 
 The aws sqs send-message cli command is executed using an explicit flag (--endpoint-url) to direct the aws cli to explicitly use the VPC endpoint.  The sqs send-message command will not be successful as the security groups will block network access to the Interface endpoint from the Cloud9 EC2 instance running on a public subnet in your VPC.  The Cloud9 instance is not a member of the security groups assigned to the salesapp or reportsengine, which have inbound access to the security group used by the VPC Endpoint and network connectivity from Cloud9 to the endpoint fails.  Security group configuration of the Cloud9 instance can optionally be verified in the EC2 Dashboard.  In US-East-1, the EC2 Dashboard is located at:  https://us-east-1.console.aws.amazon.com/ec2/home?region=us-east-1#Instances:sort=instanceId
 
@@ -49,7 +49,7 @@ The aws sqs send-message cli command is executed using an explicit flag (--endpo
 
 **SalesApp EC2 to SQSQueue**
 
-Verify that SalesApp EC2 **CAN** successfully write into the sqsqueue via the Interface VPC Endpoint
+Verify that SalesApp EC2 can successfully write into the sqsqueue via the Interface VPC Endpoint
 
 1. Refer to the collected output values from your CloudFormation stack.  Note the value of the "SQSQueueURL" and "RestrictedS3Bucket" output.  Also note the AWS Region where your lab is running (e.g. us-east-1).  You will substitute these values into the commands below. 
 
@@ -73,7 +73,7 @@ aws sqs send-message --queue-url <sqsqueueurlvalue> --endpoint-url https://sqs.<
 
 **Expected behavior** 
 
-The SalesApp EC2 **CAN** successfully write into the sqsqueue via the Interface VPC Endpoint
+The SalesApp EC2 can successfully write into the sqsqueue via the Interface VPC Endpoint
 
 Output from step 2 should look like the following:
 
@@ -98,24 +98,14 @@ aws sqs receive-message --queue-url <sqsqueueurlvalue> --endpoint-url https://sq
 
 **Expected behavior** 
 
-The SalesApp EC2 **CAN** successfully read from the Interface VPC Endpoint
+The SalesApp EC2 can successfully read from the Interface VPC Endpoint
 
 Output from step 3 should look like the following:
 
 ![verifyfigure7](./images/us-east-1/verifyfigure7.png) 
 
-**Why does this work ?**
 
-**A.**  The AWS CLI signs your API request using credentials associated with the identity returned by the aws sts get-caller-identity - the salesapp role (note: this identity has permissions to execute "sqs:SendMessage" and "sqs:ReceiveMessage" API calls via IAM).  The call is initiated from the SalesApp EC2instance.  There is an inbound rule on the Interface Endpoint security group that allows all TCP inbound access from the security group used by the SalesApp EC2 instance. Network connectivity to the Interface Endpoint is successful.   
-
-**B.**  The Interface Endpoint policy allows "sqs:SendMessage", "sqs:ReceiveMessage" and "sqs:DeleteMessage" API calls to be made by any principal within the AWS account to the vpce-us-east-1-sqs-queue.  The "sqs:SendMessage" API call to the vpce-us-east-1-sqs-queue is permitted by the endpoint policy.
-
-**C.**  The SQS resource policy for the vpce-us-east-1-sqs-queue allows "sqs:SendMessage", "sqs:ReceiveMessage" and "sqs:DeleteMessage" API calls under the condition that they originaite from the source VPC Endpoint.  The condition is met and the request is fulfilled.  
-
-![verifyfigure30](./images/us-east-1/figure30.png) 
-
-
-Recall that SalesApp EC2 has IAM privileges including "sqs:ListQueues".  We will now validate that the Interface Endpoint Policy (which only Allows "sqs:SendMessage","sqs:ReceiveMessage","sqs:DeleteMessage") restricts the ability to perform an "sqs:ListQueues" call.
+Recall that SalesApp EC2 role has IAM privileges including "sqs:ListQueues".  We will now validate that the Interface Endpoint Policy (which has a policy that only allows the following API calls: "sqs:SendMessage","sqs:ReceiveMessage","sqs:DeleteMessage") restricts the ability to perform an "sqs:ListQueues" API call.
 
 4.  Attempt to list sqs queues. Replace the <region> placeholder in the sample command below with the value of the region where you are executing the lab.   
 
@@ -125,7 +115,7 @@ aws sqs list-queues --region <region> --endpoint-url https://sqs.<region>.amazon
 
 **Expected behavior** 
 
-The SalesApp EC2 **CANNOT** successfully list queues via the Interface VPC Endpoint
+The SalesApp EC2 cannot successfully list queues via the Interface VPC Endpoint
 
 Output from step 4 should look like the following:
 
@@ -135,11 +125,11 @@ Output from step 4 should look like the following:
 
 **ReportsEngine EC2 to SQSQueue**
 
-Verify that ReportsEngine EC2 **CAN** successfully read and delete messages from the queue via the Interface VPC Endpoint
+Verify that ReportsEngine EC2 can successfully read and delete messages from the queue via the Interface VPC Endpoint
 
 1. Refer to the collected output values from your CloudFormation stack.  Note the value of the "SQSQueueURL" output.  Also note the AWS Region where your lab is running (e.g. us-east-1).  You will substitute these values into the commands below. 
 
-**Ensure that your session is connected to the  ReportsEngine EC2 instance.  You will execute step 2 from the ReportsEngine EC2 instance bash prompt.  Execute the following to connect to the ReportsEngine EC2 instance as needed:**
+**Ensure that your session is connected to the ReportsEngine EC2 instance.  You will execute step 2 from the ReportsEngine EC2 instance bash prompt.  Execute the following command to connect to the ReportsEngine EC2 instance, as needed:**
 
 ``` json
 ssh ec2-user@reportsengine -i vpce.pem
@@ -165,7 +155,9 @@ The reports engine EC2 instance can delete messages from SQS via the interface e
 
 ![verifyfigure8](./images/us-east-1/verifyfigure10.png) 
 
-Why ??????????????????????????????????
+WHY ??????
+
+
 
 **Reading Data from S3 via the Gateway Endpoint**
 
