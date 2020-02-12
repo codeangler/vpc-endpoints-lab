@@ -87,7 +87,7 @@ Output from step 2 should look like the following:
 
 **C.**  The SQS resource policy for the vpce-us-east-1-sqs-queue allows "sqs:SendMessage", "sqs:ReceiveMessage" and "sqs:DeleteMessage" API calls under the condition that they originaite from the source VPC Endpoint.  The condition is met and the request is fulfilled.  
 
-![verifyfigure30](./images/us-east-1/figure30.png) 
+![figure30](./images/us-east-1/figure30.png) 
 
 
 3.  Read the message back to verify it is in the queue.  A ReceiptHandle value is output.  Copy this value in to your buffer.  Replace the <region> placeholder in the sample command below with the value of the region where you are executing the lab. 
@@ -149,24 +149,55 @@ aws sqs delete-message --queue-url <sqsqueueurlvalue> --endpoint-url https://sqs
 
 The reports engine EC2 instance can read messages from SQS via the interface endpoint.
 
-![verifyfigure8](./images/us-east-1/verifyfigure9.png) 
+![verifyfigure9](./images/us-east-1/verifyfigure9.png) 
 
 The reports engine EC2 instance can delete messages from SQS via the interface endpoint.
 
-![verifyfigure8](./images/us-east-1/verifyfigure10.png) 
-
-WHY ??????
+![verifyfigure10](./images/us-east-1/verifyfigure10.png) 
 
 
+**Why does this work ?**
 
-**Reading Data from S3 via the Gateway Endpoint**
+A. The AWS CLI signs your API request using credentials associated with the identity returned by the aws sts get-caller-identity - the reportsengine role (note: this identity has permissions to execute "sqs:ReceiveMessage" and "sqs:DeleteMessage" API calls via IAM). The call is initiated from the ReportsEngine EC2 instance. There is an inbound rule on the Interface Endpoint security group that allows all TCP inbound access from the security group used by the ReportsEngine EC2 instance. Network connectivity to the Interface Endpoint is successful.
+
+B. The Interface Endpoint policy allows "sqs:SendMessage", "sqs:ReceiveMessage" and "sqs:DeleteMessage" API calls to be made by any principal within the AWS account to the vpce-us-east-1-sqs-queue. The "sqs:ReceiveMessage" API call to the vpce-us-east-1-sqs-queue is permitted by the endpoint policy.
+
+C. The SQS resource policy for the vpce-us-east-1-sqs-queue allows "sqs:SendMessage", "sqs:ReceiveMessage" and "sqs:DeleteMessage" API calls under the condition that they originaite from the source VPC Endpoint. The condition is met and the request is fulfilled.
+
+Note:  The same evaluation process can be applied to the "sqs:DeleteMessage" API call from the ReportsEngine EC2 instance.  It should also be noted that the SalesApp role is not granted "sqs:DeleteMessage" via IAM
+
+![figure30](./images/us-east-1/figure30.png) 
 
 
-3.  Refer to the collected output values from your CloudFormation stack.  Note the value of the “RestrictedS3Bucket”.  In your Cloud9 terminal window, while connected to the Reports Engine EC2 instance execute the following commands  
+**ReportsEngine EC2 to S3**
+
+The Reportsengine EC2 instance will read data from S3.
+
+1.  Refer to the collected output values from your CloudFormation stack.  Note the value of the “RestrictedS3Bucket”.  In your Cloud9 terminal window, while connected to the Reports Engine EC2 instance execute the following commands 
+
+**Ensure that your session is connected to the ReportsEngine EC2 instance.  You will execute step 2 from the ReportsEngine EC2 instance bash prompt.  Execute the following command to connect to the ReportsEngine EC2 instance, as needed:**
 
 ``` json
+ssh ec2-user@reportsengine -i vpce.pem
+
+```
+
+2. Execute the commands provided below AFTER (a) replacing <RestrictedS3Bucket> with the value of the output RestrictedS3Bucket from your Cloudformation stack collected in step 1.    
+
+``` json
+nslookup s3.amazonaws.com
+aws sts get-caller-identity
 aws s3 cp s3://<RestrictedS3Bucket>/test.txt  .
+aws s3 rm s3://<RestrictedS3Bucket>/test.txt 
 exit
 ```
 
-The reports engine EC2 instance will read data from S3 via the gateway endpoint.
+**Expected Behavior:** 
+
+The reports engine EC2 instance can read data from the restricted S3 bucket via the Gateway VPC Endpoint.  The Gateway VPC Endpoint policy will **ALLOW** objects to be read from the restricted bucket (bucket with a bucket policy).
+
+**Why does this work ?**
+
+This behavior replicates the access behavior observed during verification of the Gateway Endpoint from the SalesApp EC@ instance. 
+
+Congratulations - you have completed the VPC Endpoint Lab !!
