@@ -201,3 +201,23 @@ The reports engine EC2 instance can read data from the restricted S3 bucket via 
 This behavior replicates the access behavior observed during verification of the Gateway Endpoint from the SalesApp EC@ instance. 
 
 Congratulations - you have completed the VPC Endpoint Lab !!  Thank you
+
+**Summary:**
+
+**S3 Gateway Endpoint Verification**
+
+1.  IAM.  The roles used by the SalesApp EC2 instance and ReportsEngine EC2 Instance provided permission to both the S3restricted and unrestricted buckets (this configuration was deployed during lab setup)
+2.  Route table entry.  AWS created a route table entry in the route tableassociated with the private subnets (this configuration was deployed during lab setup) 
+3.  S3 Gateway Endpoint Resource Policy.  The resource policy was configured to only allow the "s3:GetObject" and "s3:PutObject" API calls.
+4.  S3 Bucket Resource Policy.  An S3 Bucket Resource Policy was configured on the restricted bucket.  It used a condition in the policy that denied the "s3:PutObject" API call whenever the required condition of using the VPC Endpoint was unmet.  
+
+**Result:** The effect of this security configuration is that data can only be written in to the restricted S3 bucket via the specific VPC endpoint in the VPC.  Route table entries exist to route traffic from the private subnets to the endpoint.  Only "s3:GetObject" and "s3:PutObject" API calls can be executed via the endpoint.
+
+**SQS Interface Endpoint Verification**
+
+1.  IAM.  The SalesApp role has the permissions to execute "sqs:SendMessage" and "sqs:ReceiveMessage". The ReportsEngine role has the permissions to execute "sqs:ReceiveMessage" and "sqs:DeleteMessage"
+2.  Security Groups.  The Interface Endpoint Security Group is used to restrict inbound network access to the SalesApp EC2 instance and ReportsEngine EC2 Instances (based on their security group membership).  Private DNS resolves requests executed within the VPC for the SQS service to private IP address space; specifically the IPs used by the Elastic Network Interfaces (ENIs) provisioned for the Interface Endpoint.   
+3.  Interface Endpoint Policy allows the "sqs:SendMessage","sqs:ReceiveMessage" and "sqs:DeleteMessage" API calls to be made to a specific SQS queue by identities within the AWS account only.
+4.  SQS Resource Policy.  The SQS Queue Resource Policy allows the "sqs:SendMessage","sqs:ReceiveMessage" and "sqs:DeleteMessage" API calls to be made to a the SQS queue only when they mee the condition of occurring via the Interface Endpoint.
+
+**Result:** The effect of this security configuration is that SQS interactions is that the "sqs:SendMessage","sqs:ReceiveMessage" and "sqs:DeleteMessage" API calls can only occur via the endpoint and access to endpoint is restricted bothby a network control (security grou) and by an IAM control (an endpoint policy).
