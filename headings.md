@@ -21,7 +21,19 @@
 
 ## Heading
 
-This is an h1 heading
+Section 1: Build-Gateway Endpoint
+
+### Sub-heading  
+
+This is an h2 heading
+
+#### Sub-sub-heading
+
+This is an h3 heading
+
+## Heading
+
+Section 2: Build-Interface Endpoint
 
 ### Sub-heading
 
@@ -33,19 +45,7 @@ This is an h3 heading
 
 ## Heading
 
-This is an h1 heading
-
-### Sub-heading
-
-This is an h2 heading
-
-#### Sub-sub-heading
-
-This is an h3 heading
-
-## Heading
-
-This is an h1 heading
+Section 3: Verify-Gateway Endpoint
 
 ### Sub-heading
 
