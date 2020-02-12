@@ -79,6 +79,17 @@ Output from step 2 should look like the following:
 
 ![verifyfigure6](./images/us-east-1/verifyfigure6.png) 
 
+**Why does this work ?**
+
+**A.**  The AWS CLI signs your API request using credentials associated with the identity returned by the aws sts get-caller-identity - the salesapp role (note: this identity has permissions to execute "sqs:SendMessage" and "sqs:ReceiveMessage" API calls via IAM).  The call is initiated from the SalesApp EC2instance.  There is an inbound rule on the security group used by the Interface Endpoint that allows all TCP inbound access from the security group used by the SalesApp EC2 instance. Network connectivity via to the Interface Endpoint is successful.   
+
+**B.**  The Interface Endpoint policy allows "sqs:SendMessage", "sqs:ReceiveMessage" and "sqs:DeleteMessage" API calls to be made by any principal with the AWS account to the vpce-us-east-1-sqs-queue.  The endpoint can be used to reach the endpoint.
+
+**C.**  The request reaches SQS and is authenticated and authorized.  The SQS resource policy allows "sqs:SendMessage", "sqs:ReceiveMessage" and "sqs:DeleteMessage" API calls under the condition that they originaite from the source VPC Endpoint.  The condition is met and the request is fulfilled.  
+
+![verifyfigure6](./images/us-east-1/figure30.png) 
+
+
 3.  Read the message back to verify it is in the queue.  A ReceiptHandle value is output.  Copy this value in to your buffer.  Replace the <region> placeholder in the sample command below with the value of the region where you are executing the lab. 
   
 ``` json
@@ -92,6 +103,7 @@ The SalesApp EC2 **CAN** successfully read from the Interface VPC Endpoint
 Output from step 3 should look like the following:
 
 ![verifyfigure7](./images/us-east-1/verifyfigure7.png) 
+
 
 Recall that SalesApp EC2 has IAM privileges including "sqs:ListQueues".  We will now validate that the Interface Endpoint Policy (which only Allows "sqs:SendMessage","sqs:ReceiveMessage","sqs:DeleteMessage") restricts the ability to perform an "sqs:ListQueues" call.
 
