@@ -21,7 +21,7 @@ Verify that Cloud9 **CANNOT** successfully write into the SQS Queue via the VPC 
 2.  Execute the commands provided below AFTER completing the following.  Make note of the results:
 * replacing <sqsqueueurlvalue> with the value of the Cloudformation output **SQSQueueURL** collected in step 1 
 * replacing <restrictedbucket> with the value of the Cloudformation output **RestrictedS3Bucket** collected in step 1 
-* replacing <region> with the value of the AWS **region** where you are executing the lab
+* replacing <region> with the value of the **AWS region** where you are executing the lab
 
 ``` json
 nslookup sqs.<region>.amazonaws.com
