@@ -200,4 +200,4 @@ The reports engine EC2 instance can read data from the restricted S3 bucket via 
 
 This behavior replicates the access behavior observed during verification of the Gateway Endpoint from the SalesApp EC@ instance. 
 
-Congratulations - you have completed the VPC Endpoint Lab !!
+Congratulations - you have completed the VPC Endpoint Lab !!  Thank you
