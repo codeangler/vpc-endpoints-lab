@@ -28,5 +28,8 @@ https://github.com/harrisn6/vpc-endpoints-lab/blob/master/setup.md
 
 --- 
 
-Note:  This lab has been tested in us-east-1.  Instructions provided reference us-east-1.  The AWS region used in the instruction screenshots/diagrams below may differ from your Event Engine region (US-EAST-1).  
-Additionally, CloudFormation stack names will be different.  
+Note:  This lab has been tested in us-east-1.  Instructions provided reference us-east-1.  
+
+The AWS region used in the instruction screenshots/diagrams below may differ from your Event Engine region (US-EAST-1).  
+
+The names of the CloudFormation stacks used in the instructions will likely be different than those in the account you use for this lab.   
