@@ -1,9 +1,26 @@
-This lab has been tested in us-east-1.  Instructions are provided reference us-east-1.
+## Running this lab using your own AWS Account 
 
-If you are completing this lab using the event engine platform please access the following link
+If you are completing this lab using your own AWS account please download the following file:   
 
-EVENT ENGINE BEGIN HERE ->  https://github.com/harrisn6/vpc-endpoints-lab/blob/master/setup.md
+https://github.com/harrisn6/vpc-endpoints-lab/blob/master/cfn/vpc-endpoints-lab.yaml
 
-If you are completing this lab using your own AWS account please access the following link
+Create a Cloudformation stack using the AWS Cloudformation Console and the downloaded yaml template.  
 
-YOUR OWN AWS ACCOUNT BEGIN HERE ->  https://github.com/harrisn6/vpc-endpoints-lab/blob/master/lab-setup-own-account.md
+Further instructions for creating a cloudformation stack from a downloaded templatecan be found here:
+
+https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-console-create-stack.html
+
+Proceed to https://github.com/harrisn6/vpc-endpoints-lab/blob/master/setup.md
+
+
+## Event Engine 
+
+Use the Event Engine Dashboard URL and the Hash provided to access the AWS account you will use for this lab
+
+Proceed to https://github.com/harrisn6/vpc-endpoints-lab/blob/master/setup.md
+
+
+--- 
+
+Note:  This lab has been tested in us-east-1.  Instructions provided reference us-east-1.  The AWS region used in the instruction screenshots/diagrams below may differ from your Event Engine region (US-EAST-1).  
+Additionally, CloudFormation stack names will be different.  
