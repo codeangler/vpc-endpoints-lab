@@ -220,4 +220,4 @@ Congratulations - you have completed the VPC Endpoint Lab !!  Thank you
 3.  Interface Endpoint Policy allows the "sqs:SendMessage","sqs:ReceiveMessage" and "sqs:DeleteMessage" API calls to be made to a specific SQS queue by identities within the AWS account only.
 4.  SQS Resource Policy.  The SQS Queue Resource Policy allows the "sqs:SendMessage","sqs:ReceiveMessage" and "sqs:DeleteMessage" API calls to be made to a the SQS queue only when they mee the condition of occurring via the Interface Endpoint.
 
-**Result:** The effect of this security configuration is that SQS interactions is that the "sqs:SendMessage","sqs:ReceiveMessage" and "sqs:DeleteMessage" API calls can only occur via the endpoint and access to endpoint is restricted bothby a network control (security grou) and by an IAM control (an endpoint policy).
+**Result:** The effect of this security configuration is that SQS interactions is that the "sqs:SendMessage","sqs:ReceiveMessage" and "sqs:DeleteMessage" API calls can only occur via the endpoint and access to endpoint is restricted bothby a network control (security group) and by an IAM control (endpoint policy).
