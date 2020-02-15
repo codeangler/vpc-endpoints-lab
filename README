@@ -4,22 +4,26 @@ If you are completing this lab using your own AWS account please download the fo
 
 https://github.com/harrisn6/vpc-endpoints-lab/blob/master/cfn/vpc-endpoints-lab.yaml
 
-Create a Cloudformation stack using the AWS Cloudformation Console and the downloaded yaml template.
+Create a CloudFormation stack using the AWS CloudFormation Console and the downloaded yaml template.
 
 Ensure that the Cloudformation stack parameter "EventEngine" is set to "false".
 
-Further instructions for creating a cloudformation stack from a downloaded templatecan be found here:
+Further instructions for creating a CloudFormation stack in the AWS Console from a downloaded template can be found here:
 
 https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-console-create-stack.html
 
-Proceed to https://github.com/harrisn6/vpc-endpoints-lab/blob/master/setup.md
+Proceed to the setup instructions for this lab located at:
+
+https://github.com/harrisn6/vpc-endpoints-lab/blob/master/setup.md
 
 
 ## Event Engine 
 
 Use the Event Engine Dashboard URL and the Hash provided to access the AWS account you will use for this lab
 
-Proceed to https://github.com/harrisn6/vpc-endpoints-lab/blob/master/setup.md
+Proceed to the setup instructions for this lab located at:
+
+https://github.com/harrisn6/vpc-endpoints-lab/blob/master/setup.md
 
 
 --- 
