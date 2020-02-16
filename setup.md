@@ -59,7 +59,7 @@ Output from the shell commands should look as follows:
 6.  As directed in the output, run the following ssh command to connect to the Sales App EC2 instance running in a private subnet in the VPC
 
 ``` json 
-ssh ec2-user@salesapp -i lab.pem
+ssh ec2-user@salesapp -i vpce.pem
 ```  
 
 Output from making the SSH connection to the Sales App should look as follows:
@@ -69,7 +69,7 @@ Output from making the SSH connection to the Sales App should look as follows:
 7.  Open a second terminal in Cloud 9 (Repeat step 4 of the 'Connect to Cloud9 IDE and setup SSH' instructions).  In the second terminal tab establish a connection to the Reports Engine EC2 instance running in a private subnet in the VPC by running the following command: 
  
 ``` json   
-ssh ec2-user@reportsengine -i lab.pem
+ssh ec2-user@reportsengine -i vpce.pem
 ```    
 
 Output from making the SSH connection to the Reports Engine should look as follows: 
