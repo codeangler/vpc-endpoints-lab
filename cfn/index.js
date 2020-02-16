@@ -2,8 +2,7 @@
 {
     "RequestType": "Create",
     "ServiceToken": "arn:aws:lambda:us-west-2:503395950200:function:test2-keypairFunction-1O6LK32I10KRY",
-    "ResponseURL": "https://cloudformation-custom-resource-response-uswest2.s3-us-west-2.amazonaws.com/arn%3Aaws%3Acloudformation%3Aus-west-2%3A503395950200%3Astack/test2/86ae1c90-00f0-11ea-99e4-064751363480%7Ckeypair%7Cc760998c-cb3d-4aec-a352-72e0d8e03b3d?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20191106T235304Z&X-Amz-SignedHeaders=host&X-Amz-Expires=7200&X-Amz-Credential=AKIA54RCMT6SCBCEMPG4%2F20191106%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Signature=6081436d76ff6427e60a79befa00dac65dee84ac91a87b8b8b8ec060348d1ee2",
-    "StackId": "arn:aws:cloudformation:us-west-2:503395950200:stack/test2/86ae1c90-00f0-11ea-99e4-064751363480",
+    "ResponseURL": "https://cloudformation-custom-resource-response-uswest2.s3-us-west-2.amazonaws.com/arn%3Aaws%3Acloudformation%3Aus-west-2%3A503395950200%3Astack/test2/86ae1c90-00f0-11ea-99e4-064751363480%7Ckeypair%7Cc760998c-cb3d-4aec-a352-7.."
     "RequestId": "c760998c-cb3d-4aec-a352-72e0d8e03b3d",
     "LogicalResourceId": "keypair",
     "ResourceType": "Custom::keypair",
