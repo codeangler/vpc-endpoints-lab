@@ -188,7 +188,6 @@ ssh ec2-user@reportsengine -i vpce.pem
 nslookup s3.amazonaws.com
 aws sts get-caller-identity
 aws s3 cp s3://<RestrictedS3Bucket>/test.txt  .
-aws s3 rm s3://<RestrictedS3Bucket>/test.txt 
 exit
 ```
 
@@ -221,3 +220,7 @@ Congratulations - you have completed the VPC Endpoint Lab !!  Thank you
 4.  SQS Resource Policy.  The SQS Queue Resource Policy allows the "sqs:SendMessage","sqs:ReceiveMessage" and "sqs:DeleteMessage" API calls to be made to a the SQS queue only when they mee the condition of occurring via the Interface Endpoint.
 
 **Result:** The effect of this security configuration is that SQS interactions is that the "sqs:SendMessage","sqs:ReceiveMessage" and "sqs:DeleteMessage" API calls can only occur via the endpoint and access to endpoint is restricted bothby a network control (security group) and by an IAM control (endpoint policy).
+
+**Clean-Up!!**
+
+If you are using your own AWS account for this lab, you will need to access the S3 console and empty thebuckets used in this lab. You can then proceed to delete the Cloudformation stack run to setup the lab. 
