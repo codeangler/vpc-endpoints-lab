@@ -223,4 +223,4 @@ Congratulations - you have completed the VPC Endpoint Lab !!  Thank you
 
 **Clean-Up!!**
 
-If you are using your own AWS account for this lab, you will need to access the S3 console and empty thebuckets used in this lab. You can then proceed to delete the Cloudformation stack run to setup the lab. 
+If you are using your own AWS account for this lab, you will need to access the S3 console and empty the buckets used in this lab. You can then proceed to delete the Cloudformation stack run to setup the lab. 
